@@ -1,0 +1,12 @@
+<form class="form-horizontal customer-form store-page" role="form" action="<%= stores_path%>" method="POST">
+  <div class="form-group">
+    <label for="StoreName" class="col-sm-2 control-label">Store Name</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="StoreName" name="storeName" placeholder="Store Name" required/>
+    </div>
+    <div class="col-sm-3">
+      <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+      <button id="CreateStore" class="btn btn-large btn-primary ccontrol" type="submit">Save</button>
+    </div>
+  </div>
+</form>   

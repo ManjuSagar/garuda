@@ -1,0 +1,36 @@
+<h4 style="margin-top:10px;">Customer Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Mobile</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%=@c.id %></td>
+      <td><%=@c.name %></td>
+      <td><%=@c.mobile%></td>
+      <td><%=@c.total_spent%></td>
+    </tr>
+  </tbody>
+</table>
+<h4 style="margin-top:50px;">Transactions By Customer</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Total Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @t.each do |t| %>
+    <tr>
+      <td><%= link_to t.id, transaction_path(t.id), :format => 'html' %></td>
+      <td><%= t.total_amount %></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>

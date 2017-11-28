@@ -1,0 +1,2 @@
+cd Desktop/strategic_interventions/garuda/
+rake db:seed

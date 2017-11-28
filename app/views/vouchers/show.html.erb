@@ -1,0 +1,75 @@
+<h4>Voucher: <%= @voucher.barcode_number%></h4>
+
+<h4 style="margin-top:50px;">Voucher Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Book Number</th>
+      <th>Serial Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @voucher_master_details.book %></td>
+      <td><%= @voucher_master_details.serial %></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 style="margin-top:50px;">Customer Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Mobile</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @customer.id %></td>
+      <td><%= link_to @customer.name, customer_path(@customer.mobile), :format => 'html' %></td>
+      <td><%= @customer.mobile%></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 style="margin-top:50px;">Transaction Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Total Amount</th>
+      <th>Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @transaction.id %></td>
+      <td><%= @transaction.total_amount %></td>
+      <td><%= @transaction.date.utc.localtime.strftime("%Y-%m-%d %H:%M:%S")%></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 style="margin-top:50px;">Purchase Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Store</th>
+      <th>Bill No</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @transaction_items.each do |ti| %>
+    <tr>
+      <td><%= ti.id %></td>
+      <td><%= ti.store.name %></td>
+      <td><%= ti.item_id%></td>
+      <td><%= ti.amount%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>

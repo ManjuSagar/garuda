@@ -1,0 +1,246 @@
+<div class="row new-transaction">
+  <div class="alert alert-danger hide" role="alert" id="Errors"></div>
+  <section>
+    <div class="alert alert-danger hide" id="TotalLess" role="alert">Total less than 1000 </div>
+    <div class="page-header">
+      <h4>Add Purchases</h4>
+      <p><strong>Total : </strong> <strong id="Total"> 0 </strong></p>
+    </div>
+
+    <div class="receipt-forms" id="ReceiptForms">
+
+        <form class="receipt-form">
+            <div class="row">
+                <div class="col-xs-2">
+                  <div id="IsToday-1" class="input-group">
+                    <select class="form-control is-today rcontrol">
+                      <option value="">Is Today</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <div class="input-group">
+                    <input id="StoreName-1" type="text" class="form-control store-name rcontrol typeahead" placeholder="Store Name" disabled="disabled" required />
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <div class="input-group">
+                    <input id="BillNo-1" type="text" class="form-control bill-no rcontrol" placeholder="Bill No" disabled="disabled" required />
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <div class="input-group">
+                    <input id="Count-1" type="number" class="form-control count rcontrol digits" placeholder="items Count" disabled="disabled" required/>
+                  </div>
+                </div>
+                <div class="col-xs-2 CountWrap">
+                  <div class="AmountWrap"></div>
+                  <div class="input-group">
+                    <input id="Amount-1" type="number" class="form-control amount rcontrol digits" placeholder="Amount" disabled="disabled" required/>
+                  </div>
+                </div>
+                <div class="col-xs-2">
+                  <label class="checkbox" for="isJwells">
+                    <input id="isJwells-1" class="isJwells" type="checkbox" name="gold"/>
+                    Jewellery
+                  </label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row coupon-applied-wrap">
+      <div class="col-xs-2">
+        <label>
+          Number of Coupons: <span id="coupons-count">0</span>
+        </label>
+      </div>
+      <div class="col-xs-2">
+        <label>
+          Coupon Value
+        </label>
+      </div>
+      <div class="col-xs-2">
+        <div class="input-group">
+            <input id="coupon-amount" type="number" class="form-control coupon-amount rcontrol digits" placeholder="coupon value"  required/>
+          </div>
+      </div>
+      <div class="col-xs-2">
+        <label>
+          Total Amount
+        </label>
+      </div>
+      <div class="col-xs-2">
+        <div class="input-group">
+            <input id="total-amount" type="number" class="form-control total-amount rcontrol digits" placeholder="Total Amount"  required/>
+          </div>
+      </div>
+    </div>
+
+  </section>
+  <br/>
+  <button id="DoneReceipts" class="btn btn-large btn-primary col-lg-1" type="button">Done</button>
+  <button id="EditReceipts" class="btn btn-large btn-danger col-lg-1 hide" type="button">Edit</button>
+
+  <form class="receipt-form-template hide" style="margin-top: 15px;">
+      <div class="row">
+          <div class="col-xs-2">
+            <div class="input-group">
+              <select class="form-control is-today rcontrol">
+                <option value="">Is Today</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-xs-2">
+            <div class="input-group">
+              <input type="text" class="form-control store-name rcontrol typeahead" placeholder="Store Name" disabled="disabled" required />
+            </div>
+          </div>
+          <div class="col-xs-2">
+            <div class="input-group">
+              <input type="text" class="form-control bill-no rcontrol" placeholder="Bill No" disabled="disabled" required />
+            </div>
+          </div>
+          <div class="col-xs-2">
+            <div class="input-group">
+              <input type="number" class="form-control count rcontrol digits" placeholder="items Count" disabled="disabled" required/>
+            </div>
+          </div>
+          <div class="col-xs-2 CountWrap">
+            <div class="AmountWrap"></div>
+            <div class="input-group">
+              <input type="number" class="form-control amount rcontrol digits" placeholder="Amount" disabled="disabled" required/>
+            </div>
+          </div>
+          <div class="col-xs-2">
+            <label class="checkbox" for="isJwells">
+              <input class="isJwells" type="checkbox" name="gold"/>
+              Jewellery
+            </label>
+          </div>
+      </div>
+  </form>
+  <form class="item-amount-form">
+    <div id="item-amount-form" class="input-group hide">
+      <input type="number" class="form-control item-amount rcontrol digits" placeholder="Amount" required/>
+    </div>
+  </form>
+</div>
+
+<div class="row">
+  <section>
+    <div class="page-header">
+      <h4>Add Customer Details</h4>
+    </div>
+
+    <form class="form-horizontal customer-form" role="form">
+      <div class="form-group">
+        <label for="Mobile" class="col-sm-2 control-label">Mobile*</label>
+        <div class="col-sm-6">
+          <input type="number" class="form-control mobile ccontrol" id="Mobile" placeholder="mobile" required minlength="10" maxlength=
+          "10"/>
+        </div>
+        <div class="col-sm-3">
+          <button id="GetCustomer" class="btn btn-large btn-primary ccontrol" type="button">Get Customer</button>
+        </div>
+      </div>
+      <div id="CustomerData" class="hide">
+        <div class="form-group">
+          <label for="Name" class="col-sm-2 control-label">Name*</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control name ccontrol" id="Name" placeholder="Name" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Email" class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-6">
+            <input type="email" class="form-control email ccontrol" id="Email" placeholder="Email"  />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Gender" class="col-sm-2 control-label">Gender</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control gender ccontrol" id="Gender" placeholder="Gender" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Age" class="col-sm-2 control-label">Age</label>
+          <div class="col-sm-6">
+            <input type="number" class="form-control age ccontrol" id="Age" placeholder="Age" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Occupation" class="col-sm-2 control-label">Occupation</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control occupation ccontrol" id="Occupation" placeholder="Occupation" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Address" class="col-sm-2 control-label">Address</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control address ccontrol" id="Address" placeholder="Address" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="Address" class="col-sm-2 control-label">Remarks</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control remarks ccontrol" id="Remarks" placeholder="Remarks" />
+          </div>
+        </div>
+      </div>
+    </form>
+    <br/>
+    <button id="DoneCustomer" class="btn btn-large btn-primary col-lg-1" type="button">Done</button>
+    <button id="EditCustomer" class="btn btn-large btn-danger col-lg-1 hide" type="button">Edit</button>
+
+  </section>
+</div>
+
+<div class="row">
+<section id="VoucherDetailsSection" class="hide">
+  <div  class="page-header">
+    <h4>Add Coupon Details</h4>
+  </div>
+  <div id="VoucherForms">
+  
+  </div>
+</section>
+<form class="voucher-form-template hide" style="margin-top: 15px;">
+    <div class="row">
+        <div class="col-sm-10">
+          <div class="input-group">
+
+            <div class="form-group">
+              <label for="Voucher" class="col-sm-2 control-label serial" style="margin-top:8px;">1</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control vcontrol voucher-code" placeholder="Coupon Code" style = "width: 140px" id="Voucher" minlength="10" maxlength="10"/>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+    </div>
+</form>
+
+</div>
+
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+
+<div class="row" style="margin-bottom: 100px;">
+  <button id="Save" class="btn btn-large btn-primary col-lg-2" type="button" disabled="disabled">Save Details</button>
+  <button id="Reset" class="btn btn-large btn-danger col-lg-2" style="margin-left: 25px;" type="button">Reset</button>
+</div>
+
+<input type="hidden" id="AllStores" value="<%= @stores.to_json%>">
+
+
+

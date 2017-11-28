@@ -1,0 +1,100 @@
+<% if (!@transaction.has_winner_doc?) %>
+  <h4>Uplaod winner pdf</h4>
+  <form class="form-horizontal" method="post" action="<%= transaction_path(@transaction.id)%>" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="WinnerDoc" class="col-sm-2 control-label">File*</label>
+        <div class="col-sm-6">
+          <input type="file" id="WinnerDoc" name = "winner_doc" accept="application/pdf" /> 
+          <input name="_method" type="hidden" value="patch">
+          <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        </div>
+        <div class="col-sm-3">
+          <button id="uplaod" class="btn btn-large btn-primary ccontrol" type="submit">Upload</button>
+        </div>
+      </div>
+  </form>
+
+<% end %>
+
+<h4 style="margin-top:30px;">Transaction Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Total Amount</th>
+      <th>Date</th>
+      <th>Document</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= @transaction.id %></td>
+      <td><%= @transaction.total_amount %></td>
+      <td><%= @transaction.date.utc.localtime.strftime("%Y-%m-%d %H:%M:%S")%></td>
+      <% if @transaction.has_winner_doc?%>
+        <td><a href="<%= @transaction.winner_doc.url%>">Download</a></td>
+      <%end%>
+    </tr>
+  </tbody>
+</table>
+
+<h4 style="margin-top:50px;">Customer Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Mobile</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%=@transaction.customer.id %></td>
+      <td><%= link_to @transaction.customer.name, customer_path(@transaction.customer.mobile), :format => 'html' %></td>
+      <td><%=@transaction.customer.mobile%></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 style="margin-top:50px;">Stores Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Store Name</th>
+      <th>Bill No</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% @transaction_items.each do |ti| %>
+      <tr>
+      <td><%= link_to ti.store.name, store_path(ti.store.id), :format => 'html'%></td>
+      <td><%= ti.item_id%></td>
+      <td><%= ti.amount %> </td></tr>
+      <% end %>
+    </tr>
+  </tbody>
+</table>
+<h4 style="margin-top:50px;">Voucher Details</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Voucher Id</th>
+      <th>Barcode Number</th>
+      <th>Book Number</th>
+      <th>Serial Number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% @vouchers.each do |v| %>
+      <tr>
+      <td><%= v.id %></td>
+      <td><%= v.barcode_number %> </td>
+      <td><%= v.voucher_master.book %> </td>
+      <td><%= v.voucher_master.serial %> </td></tr>
+      <% end %>
+    </tr>
+  </tbody>
+</table>

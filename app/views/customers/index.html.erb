@@ -1,0 +1,35 @@
+
+<form class="form-horizontal customer-form customer-page" role="form">
+  <div class="form-group">
+    <label for="Mobile" class="col-sm-2 control-label">Customer Mobile</label>
+    <div class="col-sm-6">
+      <input type="text" class="form-control" id="Mobile" name="Mobile" placeholder="Mobile Number"/>
+    </div>
+    <div class="col-sm-3">
+      <button id="GetCustomer" class="btn btn-large btn-primary ccontrol" type="button">Get Customer Info</button>
+    </div>
+  </div>
+</form>   
+<br/>
+<br/>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Mobile</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @customers.sort_by {|c| c.total_spent}.reverse.each do |c| %>
+    <tr>
+      <td><%= c.id %></td>
+      <td><%= link_to c.name, customer_path(c.mobile), :format => 'html'%></td>
+      <td><%= c.mobile%></td>
+      <td><%= c.total_spent%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>
+

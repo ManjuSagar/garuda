@@ -1,0 +1,22 @@
+<h4><%= @store.name %></h4>
+<table class="table table-striped" style="margin-top:30px;">
+  <thead>
+    <tr>
+      <th>Bill Number</th>
+      <th>Transaction Id</th>
+      <th>Date of transaction</th>
+      <th>Bill Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% @transaction_items.each do |tr| %>
+      <tr><td><%= tr.item_id %></td>
+      <td><%= link_to tr.transaction_id, transaction_path(tr.transaction_id) %></td>
+      <td><%= tr.date %></td>
+      <td><%= tr.amount %></td></tr>
+      <% end %>
+      <%= will_paginate @transaction_items %>
+    </tr>
+  </tbody>
+</table>

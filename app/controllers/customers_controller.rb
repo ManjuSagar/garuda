@@ -4,6 +4,7 @@ class CustomersController < ApplicationController
 
   def get_customer
     mobile = params[:id]
+    puts Customer.last.inspect
     @c = Customer.find_by_mobile(mobile)
     if(@c.nil?)
      respond_to do |format|

@@ -63,6 +63,8 @@ class TransactionsController < ApplicationController
   def create
 
     body = JSON.parse(request.body.read)
+    puts "inffffffffffffffffffffffffffff"
+    puts body.inspect
     customer_info = body["customerInfo"] 
     receipt_info = body["receiptInfo"]
     voucher_info = body["voucherInfo"]

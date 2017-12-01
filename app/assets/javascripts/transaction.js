@@ -116,13 +116,13 @@ var Transaction =  function(argument) {
       totalAmount = totalAmount + $(amountField).val() * 1.0;
       var fieldAmount = $(amountField).val() * 1.0;
       if(fieldAmount >= 1000){
-        if(fieldAmount < 50000){
+        if(fieldAmount < 20000){
           var remainingAmount = fieldAmount % 1000
           resrictedAmount = resrictedAmount + remainingAmount;
         }
         var numRows = parseInt(fieldAmount/1000);
-        if(numRows >= 50){
-          numRows = 50;
+        if(numRows >= 20){
+          numRows = 20;
         }
         totalRows = totalRows + numRows;
       }else{
@@ -219,7 +219,7 @@ var Transaction =  function(argument) {
           }
         });
       });
-      if(total < 1000){
+      if(total < 1000){ 
         $("#TotalLess").removeClass("hide");
         // $("#TotalLess").show();
         isValid = false;
@@ -393,12 +393,13 @@ var Transaction =  function(argument) {
             voucherInfo.push({"barCode": voucherCode.trim()});
           });
         }
-
+        var billDate = $('#bill-date')[0].value;
         
         var transactionInfo = {
           "receiptInfo" : receiptInfo,
           "customerInfo" : customerInfo,
-          "voucherInfo" : voucherInfo
+          "voucherInfo" : voucherInfo,
+          "billDate": billDate
         };
 
         console.log(transactionInfo.toString());

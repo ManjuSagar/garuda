@@ -150,9 +150,10 @@ class TransactionsController < ApplicationController
         render :nothing => true, :status => 400
         return
       end
-      transaction.transaction_items.new(item_id: receipt["billNo"], store: store, amount: receipt["amount"], is_jwells: receipt["isJwells"], date: Date.today, items_count: receipt["count"])
+      transaction.transaction_items.new(item_id: receipt["billNo"], store: store, amount: receipt["amount"],
+                                        is_jwells: receipt["isJwells"], date: receipt["transactionDate"], items_count: receipt["count"])
     end
-    
+
     valid_vouchers.each do |voucher|
       transaction.vouchers.new(barcode_number: voucher["barCode"].strip.upcase)
     end

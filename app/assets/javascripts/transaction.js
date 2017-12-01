@@ -116,13 +116,13 @@ var Transaction =  function(argument) {
       totalAmount = totalAmount + $(amountField).val() * 1.0;
       var fieldAmount = $(amountField).val() * 1.0;
       if(fieldAmount >= 1000){
-        if(fieldAmount < 50000){
+        if(fieldAmount < 20000){
           var remainingAmount = fieldAmount % 1000
           resrictedAmount = resrictedAmount + remainingAmount;
         }
         var numRows = parseInt(fieldAmount/1000);
-        if(numRows >= 50){
-          numRows = 50;
+        if(numRows >= 20){
+          numRows = 20;
         }
         totalRows = totalRows + numRows;
       }else{
@@ -364,13 +364,15 @@ var Transaction =  function(argument) {
           var billNo =  $(this).find(".bill-no").val(); 
           var isToday =  $(this).find(".is-today").find(":selected").val();
           var isJwells = $(this).find(".isJwells").is(':checked');
+          var date = $(this).find(".transaction-date").val();
           if(isToday == "yes"){
             isToday = true;
           }else{
             isToday = false;
           }
           if(isToday){
-            receiptInfo.push({"storeName": storeName, "amount":amount, "count": count, "billNo": billNo, "isToday":isToday, "isJwells":isJwells, "couponAppliedAmount": couponAppliedAmount});
+            receiptInfo.push({"storeName": storeName, "amount":amount, "count": count, "billNo": billNo, "isToday":isToday,
+                "isJwells":isJwells, "couponAppliedAmount": couponAppliedAmount, "transactionDate": date});
           }
         });
 

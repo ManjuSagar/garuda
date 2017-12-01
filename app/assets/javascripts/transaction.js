@@ -10,6 +10,7 @@ var Transaction =  function(argument) {
   var disableReciptRow = function(num){
     $("#StoreName-"+num).attr('disabled','disabled');
     $("#BillNo-"+num).attr('disabled','disabled');
+    $("#TransactionDate-"+num).attr('disabled','disabled');
     $("#Amount-"+num).attr('disabled','disabled');
     $("#Count-"+num).attr('disabled','disabled');
   }
@@ -17,6 +18,7 @@ var Transaction =  function(argument) {
   var enableReciptRow = function(num){
     $("#StoreName-"+num).removeAttr('disabled');
     $("#BillNo-"+num).removeAttr('disabled');
+    $("#TransactionDate-"+num).removeAttr('disabled');
     $("#Amount-"+num).removeAttr('disabled');
     $("#Count-"+num).removeAttr('disabled','disabled');
   }
@@ -33,6 +35,7 @@ var Transaction =  function(argument) {
     newRow.find(".amount").attr("id","Amount-"+newRowNum); 
     newRow.find(".count").attr("id","Count-"+newRowNum); 
     newRow.find(".bill-no").attr("id","BillNo-"+newRowNum);
+    newRow.find(".transaction-date").attr("id","TransactionDate-"+newRowNum);
     var isToday =  newRow.find(".is-today");
     isToday.attr("id","isToday-"+newRowNum);
     var countField = $("#Count-"+newRowNum);

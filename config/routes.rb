@@ -64,5 +64,9 @@ Rails.application.routes.draw do
   get "/reports" => "reports#index", as: :reports
   get "customers/get_cutomer/:id" => "customers#get_customer", as: :customer_info
 
+  get "/get_highest_shopper" => "customers#get_highest_shopper"
+  get '/transactions_download/:from_date/:to_date', to: "transactions#csv_download"
+  get '/transaction_items_download/:from_date/:to_date', to: "transaction_items#csv_download"
+
 end
   

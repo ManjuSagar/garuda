@@ -1,4 +1,5 @@
 class TransactionsController < ApplicationController
+  require 'csv'
   before_action :require_admin_login, only: [:index,:show,:update]
   before_action :authenticate_user! 
   
@@ -194,4 +195,22 @@ class TransactionsController < ApplicationController
     flash[:notice] = "Transaction saved. Transaction Id = #{transaction.id}"    
     render :nothing => true
   end
+
+  def csv_download
+    all = Transaction.all.where("date >= ? AND date <= ?", params[:from_date], params[:to_date])
+    file = Tempfile.new("Transactions_#{Time.now.to_f}.csv")
+    file_name = "Transactions(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
+    path = file.path
+
+    CSV.open(path, "w") do |csv|
+      columns = ["id"] + ["date"] + ["customer_id"] + ["customer name"] + ["Mobile Number"]+ ["total"] + ["coupon Value Amount"]
+      csv <<  columns
+      all.each do |c|
+        v = [c.id] + [c.date.localtime.strftime("%Y-%m-%d %H:%M:%S")] +[c.customer_id] + [c.customer_name] + [c.mobile_number] + [c.total_amount] + [c.coupon_amount]
+        csv << v
+      end
+      send_file path, filename: file_name
+    end
+  end
+
 end

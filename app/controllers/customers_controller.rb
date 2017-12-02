@@ -49,4 +49,26 @@ class CustomersController < ApplicationController
       format.csv { send_data @customers.to_csv }
     end
   end
+
+  def get_highest_shopper
+    d = DateTime.now.beginning_of_day
+    @highest_transaction = Transaction.all.where("date >=?", d).order("coupon_amount DESC").first
+    puts @highest_transaction.inspect
+    @customer = Customer.find_by_id(@highest_transaction.customer_id)
+    if(@customer.nil?)
+      respond_to do |format|
+        format.json do
+          render json:{:no_data => "true"}
+          return
+        end
+      end
+    end
+    respond_to do |format|
+      format.json do
+        json = @customer.to_json
+        render :json => json
+      end
+    end
+  end
+
 end

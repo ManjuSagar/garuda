@@ -54,6 +54,7 @@
             <li><%= link_to "Coupons", vouchers_path%></li>
             <li><%= link_to "Select Winner", new_winner_path%></li>
             <li><%= link_to "Reports", reports_path%></li>
+            <li><%= link_to "Highest Shopper:" %></li><li id="highest-Shopper" style="margin-top: 15px; background: yellowgreen"></li>
           </ul>
         <%end%>
         <ul class="nav navbar-nav pull-right">
@@ -82,7 +83,25 @@
     <script type="text/javascript">
       setTimeout(function(){
         scrollTo(0,-1);
+          listHighestShopper();
       },300);
+
+      var listHighestShopper = function(){
+          $.ajax({
+              type: "GET",
+              url: "/get_highest_shopper",
+              cache: false,
+              success: function(data){
+                  var name = "";
+                  if(data["nodata"]){
+                      name = "No Customer"
+                  } else {
+                     name =  data["name"]
+                  }
+                  $("#highest-Shopper").html(name);
+              }
+          })
+      }
     </script>
   </body>
 </html>

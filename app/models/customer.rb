@@ -29,4 +29,8 @@ class Customer < ActiveRecord::Base
      end
    end
 
+   def mark_as_winner
+     self.is_winner = true
+   end
+
 end

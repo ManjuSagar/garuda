@@ -197,7 +197,9 @@ class TransactionsController < ApplicationController
   end
 
   def csv_download
-    all = Transaction.all.where("date >= ? AND date <= ?", params[:from_date], params[:to_date])
+    from_date = params[:from_date] + " 00:00:00"
+    to_date = params[:to_date] + " 23:59:59"
+    all = Transaction.all.where("date >= ? AND date <= ?", from_date, to_date)
     file = Tempfile.new("Transactions_#{Time.now.to_f}.csv")
     file_name = "Transactions(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
     path = file.path

@@ -1,7 +1,7 @@
 <form role="form" action=<%= winners_path%> method="post">
   <div class="form-group">
-    <label for="WinForm">Winning Coupon Code</label>
-    <input type="text" class="form-control" id="WinForm" name ="voucher" placeholder="Enter coupon code">
+    <label for="WinForm">Winning Mobile Number</label>
+    <input type="text" class="form-control" id="WinForm" name ="voucher" placeholder="Enter mobile number">
   </div>
   <%= hidden_field_tag :authenticity_token, form_authenticity_token -%>
   <button type="submit" class="btn btn-default">Submit</button>

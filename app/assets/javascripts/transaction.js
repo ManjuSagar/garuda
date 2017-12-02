@@ -289,18 +289,21 @@ var Transaction =  function(argument) {
            $("#CustomerData").removeClass("hide");
            $("#Errors").text("Cutomer does not exist, Please continue with new customer").removeClass('hide');
          }else{
-           var isWinner = data["is_winner?"];
+           var isWinner = data["is_winner"];
            if(isWinner) {
              disableVouchersForWinner();
+               $("#Errors").text("This customer has won the prize").removeClass('hide');
+           } else {
+               $(".name").val(data["name"]);
+               $(".email").val(data["email"]);
+               $(".gender").val(data["gender"]);
+               $(".age").val(data["age"]);
+               $(".occupation").val(data["occupation"]);
+               $(".address").val(data["address"]);
+               $(".remarks").val(data["remarks"]);
+               $("#CustomerData").removeClass("hide");
            }
-           $(".name").val(data["name"]);
-           $(".email").val(data["email"]);
-           $(".gender").val(data["gender"]);
-           $(".age").val(data["age"]);
-           $(".occupation").val(data["occupation"]);
-           $(".address").val(data["address"]);
-           $(".remarks").val(data["remarks"]);
-           $("#CustomerData").removeClass("hide");
+
          }
        }
      })

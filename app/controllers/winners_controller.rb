@@ -5,20 +5,20 @@ class WinnersController < ApplicationController
   end
 
   def create
-    voucher_barcode = params[:voucher]
+    number = params[:voucher]
+    puts "vvvvvvvvvvvvvvvvvvvvvvvvvvv #{params.inspect}"
+    v = Customer.find_by_mobile number
+    puts "vvvvvvvvvvvvvvvvvvvvvvvvvvv #{v}"
+    # if(!v.nil?)
+    #   flash[:error] = 'Winner has already been selected for today.'
+    #   redirect_to new_transaction_path
+    #   return
+    # end
 
-    v = Voucher.find_by_win_date Date.today
-    
-    if(!v.nil?)
-      flash[:error] = 'Winner has already been selected for today.'
-      redirect_to new_transaction_path
-      return
-    end
-
-    v = Voucher.find_by_barcode_number voucher_barcode 
-    
+    # v = Voucher.find_by_barcode_number voucher_barcode
+    #
     if(v.nil?)
-      flash[:error] = 'Voucher does not exist. Verify and re-enter.'
+      flash[:error] = 'Customer does not exist with this number.'
       redirect_to new_winner_path
       return
     end
@@ -31,6 +31,6 @@ class WinnersController < ApplicationController
 
 
     flash[:notice] = 'Winner updated succesfully.'
-    redirect_to transaction_path v.transact.id
+    redirect_to new_winner_path #transaction_path v.transact.id
   end
 end

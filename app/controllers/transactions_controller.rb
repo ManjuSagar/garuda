@@ -78,19 +78,19 @@ class TransactionsController < ApplicationController
     end
 
     errors = []
-    valid_vouchers = voucher_info.reject{|info| info["barCode"].blank? }
+   # valid_vouchers = voucher_info.reject{|info| info["barCode"].blank? }
     customer = Customer.find_by_mobile(customer_info["mobile"])
 
-    if (valid_vouchers.blank?)
-      if(!customer.nil? and !customer.is_winner?)
-        errors << "No coupons entered! Please enter atleast one coupon to save!"
-      end
-    else
-      duplicate_vouchers = valid_vouchers.group_by {|v| v["barCode"]}.select { |k,v| v.size > 1}.keys
-      duplicate_vouchers.each do |v|
-        errors << "Duplicate Coupon Codes entered! Coupon No: #{v}"
-      end
-    end
+    # if (valid_vouchers.blank?)
+    #   if(!customer.nil? and !customer.is_winner?)
+    #     errors << "No coupons entered! Please enter atleast one coupon to save!"
+    #   end
+    # else
+    #   duplicate_vouchers = valid_vouchers.group_by {|v| v["barCode"]}.select { |k,v| v.size > 1}.keys
+    #   duplicate_vouchers.each do |v|
+    #     errors << "Duplicate Coupon Codes entered! Coupon No: #{v}"
+    #   end
+    # end
     if (errors.length > 0)
       render  :json => errors, :status => :bad_request
       return
@@ -102,19 +102,19 @@ class TransactionsController < ApplicationController
     
 
     if(customer.nil?)
-      isVoucherPresent = false
-      voucher_info.each do |a|
-        if a["barCode"].present?
-          isVoucherPresent = true
-          break
-        end
-      end
+      # isVoucherPresent = false
+      # voucher_info.each do |a|
+      #   if a["barCode"].present?
+      #     isVoucherPresent = true
+      #     break
+      #   end
+      # end
 
-      if(!isVoucherPresent)
-        errors << "No coupons entered! Please enter atleast one coupon to save!"
-        render :json => errors, :status => :bad_request
-        return
-      end
+      # if(!isVoucherPresent)
+      #   errors << "No coupons entered! Please enter atleast one coupon to save!"
+      #   render :json => errors, :status => :bad_request
+      #   return
+      # end
 
       customer = Customer.new(name: customer_info["name"].strip, email: customer_info["email"].strip, mobile: customer_info["mobile"].strip, address: customer_info["address"].strip, occupation: customer_info["occupation"].strip, gender: customer_info["gender"].strip, age: customer_info["age"].strip, remarks: customer_info["remarks"].strip)
     else
@@ -127,7 +127,8 @@ class TransactionsController < ApplicationController
       customer.remarks = customer_info["remarks"].strip
     end
 
-    if(customer.is_winner? and !valid_vouchers.empty?)
+    # if(customer.is_winner? and !valid_vouchers.empty?)
+    if(customer.is_winner?)
       render :nothing => true, :status => :bad_request
       return
     end
@@ -136,10 +137,10 @@ class TransactionsController < ApplicationController
       no_of_vouchers_to_issue = total_receipt_value / 1000
 
     
-      if(valid_vouchers.length > no_of_vouchers_to_issue)
-        render :nothing => true, :status => 400
-        return
-      end
+      # if(valid_vouchers.length > no_of_vouchers_to_issue)
+      #   render :nothing => true, :status => 400
+      #   return
+      # end
     end
 
     transaction = customer.transactions.new date: DateTime.now
@@ -154,9 +155,9 @@ class TransactionsController < ApplicationController
                                         is_jwells: receipt["isJwells"], date: receipt["transactionDate"], items_count: receipt["count"])
     end
 
-    valid_vouchers.each do |voucher|
-      transaction.vouchers.new(barcode_number: voucher["barCode"].strip.upcase)
-    end
+    # valid_vouchers.each do |voucher|
+    #   transaction.vouchers.new(barcode_number: voucher["barCode"].strip.upcase)
+    # end
 
     begin
       customer.save!      
@@ -170,21 +171,21 @@ class TransactionsController < ApplicationController
         end
       end
       
-      transaction.vouchers.each do |v|
-        v.errors.to_a.each do |e|
-          if(e == "Barcode number Voucher Taken")
-            errors << "Duplicate Coupon, Coupon Code: #{v.barcode_number}"
-          end
-        end
-      end
+      # transaction.vouchers.each do |v|
+      #   v.errors.to_a.each do |e|
+      #     if(e == "Barcode number Voucher Taken")
+      #       errors << "Duplicate Coupon, Coupon Code: #{v.barcode_number}"
+      #     end
+      #   end
+      # end
 
-      transaction.vouchers.each do |v|
-        v.errors.to_a.each do |e|
-          if(e == "Voucher master Invalid Voucher")
-            errors << "Invalid Coupon, Coupon Code: #{v.barcode_number}"
-          end
-        end
-      end
+      # transaction.vouchers.each do |v|
+      #   v.errors.to_a.each do |e|
+      #     if(e == "Voucher master Invalid Voucher")
+      #       errors << "Invalid Coupon, Coupon Code: #{v.barcode_number}"
+      #     end
+      #   end
+      # end
       
       render  :json => errors, :status => :bad_request
       return

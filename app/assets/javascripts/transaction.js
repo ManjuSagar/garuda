@@ -137,7 +137,7 @@ var Transaction =  function(argument) {
 
     totalRows = restrictedRows + totalRows;
 
-    for (var i = 0; i < totalRows; i++) {
+    /*for (var i = 0; i < totalRows; i++) {
       var newRow = $($(".voucher-form-template").clone()) ;
       newRow.appendTo(voucherForms);
       newRow.removeClass('voucher-form-template');
@@ -159,11 +159,11 @@ var Transaction =  function(argument) {
       });
 
       newRow.removeClass('hide');
-    }
+    }*/
     $("#coupons-count").html(totalRows)
     $("#coupon-amount").val(totalRows * 1000);
     $("#total-amount").val(totalAmount);
-    $("#VoucherDetailsSection").removeClass("hide");
+    //$("#VoucherDetailsSection").removeClass("hide");
   }
 
   var generateTotal = function(){
@@ -317,13 +317,14 @@ var Transaction =  function(argument) {
         });
       });
 
+
       if(!isValid) return;
 
       $("#EditCustomer").removeClass("hide");
       $(".ccontrol").attr('disabled','disabled');
       $(this).addClass("hide");
       customerDone = true;
-      ($(".vcontrol")[0]).focus();
+     // ($(".vcontrol")[0]).focus();
       enableDisableSaveButton();
     });
 

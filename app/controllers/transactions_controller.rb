@@ -144,7 +144,7 @@ class TransactionsController < ApplicationController
       # end
     end
 
-    transaction = customer.transactions.new date: DateTime.now
+    transaction = customer.transactions.new date: DateTime.parse(receipt_info[0]["transactionDate"])
     transaction.coupon_amount = receipt_info[0]["couponAppliedAmount"]
     receipt_info.each do |receipt|
       store = Store.find_by_name(receipt["storeName"])

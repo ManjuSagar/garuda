@@ -12,6 +12,20 @@
 </form>   
 <br/>
 <br/>
+
+<div class="row">
+  <%= form_tag('/customers') do %>
+      <div class="col-xs-2">
+        <div class="input-group">
+          <%= date_field_tag(:filtered_date, @selectedDate, :html=>{:class => "form-control rcontrol typeahead"} ) %>
+        </div>
+      </div>
+      <div class="col-sm-3">
+         <%= submit_tag 'Get Customers', :class=> "btn btn-large btn-primary ccontrol" %>
+      </div>
+  <% end %>
+</div>
+
 <table class="table table-striped">
   <thead>
     <tr>
@@ -22,12 +36,12 @@
     </tr>
   </thead>
   <tbody>
-    <% @customers.sort_by {|c| c.total_spent}.reverse.each do |c| %>
+    <% @filteredCustomers.sort_by {|c| c.total_spent(@selectedDate)}.reverse.each do |c| %>
     <tr>
       <td><%= c.id %></td>
       <td><%= link_to c.name, customer_path(c.mobile), :format => 'html'%></td>
       <td><%= c.mobile%></td>
-      <td><%= c.total_spent%></td>
+      <td><%= c.total_spent(@selectedDate)%></td>
     </tr>
     <%end%>
   </tbody>

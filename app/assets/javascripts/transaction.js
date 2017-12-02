@@ -19,6 +19,10 @@ var Transaction =  function(argument) {
     $("#StoreName-"+num).removeAttr('disabled');
     $("#BillNo-"+num).removeAttr('disabled');
     $("#TransactionDate-"+num).removeAttr('disabled');
+    var todayDate = new Date();
+    var onlyDate = (todayDate.getDate() < 10) ? '0' + todayDate.getDate() : todayDate.getDate();
+    var formattedDate = todayDate.getFullYear() +"-"+ (todayDate.getMonth() + 1)+ "-" + onlyDate;
+    $("#TransactionDate-"+num).val(formattedDate);
     $("#Amount-"+num).removeAttr('disabled');
     $("#Count-"+num).removeAttr('disabled','disabled');
   }
@@ -160,7 +164,7 @@ var Transaction =  function(argument) {
 
       newRow.removeClass('hide');
     }*/
-    $("#coupons-count").html(totalRows)
+    // $("#coupons-count").html(totalRows)
     $("#coupon-amount").val(totalRows * 1000);
     $("#total-amount").val(totalAmount);
     //$("#VoucherDetailsSection").removeClass("hide");

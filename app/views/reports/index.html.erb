@@ -18,14 +18,14 @@
     </tr>
     <tr>
       <td>All Transactions</td>
-      <td> From: <input type="date" class="form-control rcontrol typeahead download-transactions-from-date"/></td>
-      <td> To : <input type="date" class="form-control rcontrol typeahead download-transactions-to-date" /></td>
+      <td> From: <input type="date" class="form-control rcontrol typeahead download-transactions-from-date" value=<%= Date.today%> /></td>
+      <td> To : <input type="date" class="form-control rcontrol typeahead download-transactions-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-transactions", "transactions_download")'>Download Transactions</a></td>
     </tr>
     <tr>
       <td>All Purchases</td>
-      <td> From: <input type="date" class="form-control rcontrol typeahead download-all-purchase-from-date"/></td>
-      <td> To : <input type="date" class="form-control rcontrol typeahead download-all-purchase-to-date" /></td>
+      <td> From: <input type="date" class="form-control rcontrol typeahead download-all-purchase-from-date" value=<%= Date.today%> /></td>
+      <td> To : <input type="date" class="form-control rcontrol typeahead download-all-purchase-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-all-purchase", "transaction_items_download")' >Download Purchases</a></td>
     </tr>
     <!--<tr>-->

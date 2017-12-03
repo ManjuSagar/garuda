@@ -2,6 +2,16 @@
   <li class="active pull-right">
     <a href="/stores/new">Add New Store</a>
   </li>
+  <li class="active pull-right">
+    <%= form_tag upload_stores_path, multipart: true do %>
+      <li class="active pull-right">
+        <%= file_field_tag :file %>
+      <!--</li>-->
+      <!--<li class="active pull-right">-->
+        <%= submit_tag "Upload" %>
+      </li>
+    <% end %>
+  </li>
 </ul>
 <%= will_paginate @stores %>
 <table class="table table-striped">

@@ -1,4 +1,5 @@
 class StoresController < ApplicationController
+  require 'csv'
   before_action :require_admin_login
   before_action :authenticate_user! 
    
@@ -51,4 +52,16 @@ class StoresController < ApplicationController
    end
    @transaction_items = TransactionItem.where(store_id: store_id).paginate(:page => params[:page], :per_page => 20) 
   end
+
+  def import
+    file = params[:file]
+    if(file)
+      CSV.foreach(file.path, headers: true) do |row|
+        name = row.to_hash["store_name"].strip
+        Store.find_or_create_by(name: name)
+      end
+    end
+    redirect_to stores_path
+  end
+
 end

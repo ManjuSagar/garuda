@@ -32,6 +32,7 @@
       <th>Id</th>
       <th>Name</th>
       <th>Mobile</th>
+      <th>Coupon Amount</th>
       <th>Total</th>
     </tr>
   </thead>
@@ -41,6 +42,7 @@
       <td><%= c.id %></td>
       <td><%= link_to c.name, customer_path(c.mobile), :format => 'html'%></td>
       <td><%= c.mobile%></td>
+      <td><%= c.coupon_amount(@selectedDate)%></td>
       <td><%= c.total_spent(@selectedDate)%></td>
     </tr>
     <%end%>

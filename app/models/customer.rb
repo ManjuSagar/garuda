@@ -16,6 +16,12 @@ class Customer < ActiveRecord::Base
      self.transactions.where("date >= ? AND date <= ?", d1, d2).map{|t| t.total_amount}.inject {|total, t| total + t}
    end
 
+   def coupon_amount(date)
+     d1 = date.to_s + " 00:00:00"
+     d2 = date.to_s + " 23:59:59"
+     self.transactions.where("date >= ? AND date <= ?", d1, d2).map{|t| t.coupon_amount}.inject {|total, t| total + t}
+   end
+
    def all_coupons
     self.transactions.map {|t| t.all_coupons}.join("|")
    end

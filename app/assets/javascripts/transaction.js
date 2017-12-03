@@ -124,22 +124,24 @@ var Transaction =  function(argument) {
       var fieldAmount = $(amountField).val() * 1.0;
       if(fieldAmount >= 1000){
         if(fieldAmount < 20000){
-          var remainingAmount = fieldAmount % 1000
-          resrictedAmount = resrictedAmount + remainingAmount;
+          // var remainingAmount = fieldAmount
+          resrictedAmount += fieldAmount;
+        } else {
+            resrictedAmount += 20000
         }
-        var numRows = parseInt(fieldAmount/1000);
-        if(numRows >= 20){
-          numRows = 20;
-        }
-        totalRows = totalRows + numRows;
+        // var numRows = fieldAmount/1000;
+        // if(numRows >= 20){
+        //   numRows = 20;
+        // }
+        // totalRows = totalRows + numRows;
       }else{
-        var remainingAmount = fieldAmount % 1000
-        resrictedAmount = resrictedAmount + remainingAmount;
+        // var remainingAmount = fieldAmount;
+        resrictedAmount += fieldAmount;
       }
     });
-    restrictedRows = parseInt(resrictedAmount / 1000);
+    // restrictedRows = parseInt(resrictedAmount / 1000);
 
-    totalRows = restrictedRows + totalRows;
+    // totalRows = restrictedRows + totalRows;
 
     /*for (var i = 0; i < totalRows; i++) {
       var newRow = $($(".voucher-form-template").clone()) ;
@@ -165,7 +167,7 @@ var Transaction =  function(argument) {
       newRow.removeClass('hide');
     }*/
     // $("#coupons-count").html(totalRows)
-    $("#coupon-amount").val(totalRows * 1000);
+    $("#coupon-amount").val(resrictedAmount);
     $("#total-amount").val(totalAmount);
     //$("#VoucherDetailsSection").removeClass("hide");
   }
@@ -296,7 +298,7 @@ var Transaction =  function(argument) {
            var isWinner = data["is_winner"];
            if(isWinner) {
              disableVouchersForWinner();
-               $("#Errors").text("This customer has won the prize").removeClass('hide');
+               alert("This customer has already won the prize.");
            } else {
                $(".name").val(data["name"]);
                $(".email").val(data["email"]);

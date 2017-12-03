@@ -208,7 +208,8 @@ class TransactionsController < ApplicationController
       columns = ["id"] + ["date"] + ["customer_id"] + ["customer name"] + ["Mobile Number"]+ ["total"] + ["coupon Value Amount"]
       csv <<  columns
       all.each do |c|
-        v = [c.id] + [c.date.localtime.strftime("%Y-%m-%d %H:%M:%S")] +[c.customer_id] + [c.customer_name] + [c.mobile_number] + [c.total_amount] + [c.coupon_amount]
+        total_amount = c.transaction_items.map{|t| t.amount}.inject{|total, vl| total+vl} || 0
+        v = [c.id] + [c.date.localtime.strftime("%Y-%m-%d %H:%M:%S")] +[c.customer_id] + [c.customer_name] + [c.mobile_number] + [total_amount] + [c.coupon_amount]
         csv << v
       end
       send_file path, filename: file_name

@@ -67,6 +67,7 @@ Rails.application.routes.draw do
   get "/get_highest_shopper" => "customers#get_highest_shopper"
   get '/transactions_download/:from_date/:to_date', to: "transactions#csv_download"
   get '/transaction_items_download/:from_date/:to_date', to: "transaction_items#csv_download"
+  post "/customers", to: "customers#index"
 
 end
   

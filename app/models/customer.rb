@@ -26,12 +26,16 @@ class Customer < ActiveRecord::Base
     self.transactions.map {|t| t.all_coupons}.join("|")
    end
 
+   def total_spent_by_customer
+     self.transactions.map{|t| t.total_amount}.inject {|total, t| total + t}
+   end
+
    def self.to_csv(options = {})
      CSV.generate(options) do |csv|
        columns = column_names + ["total_spent", "coupons"]
        csv <<  columns
        all.each do |c|
-          v = c.attributes.values_at(*column_names) + [c.total_spent, c.all_coupons]
+          v = c.attributes.values_at(*column_names) + [c.total_spent_by_customer, c.all_coupons]
          csv << v
        end
      end

@@ -17,7 +17,15 @@ gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) support
 gem "twitter-bootstrap-rails"
 
 # gem 'mysql2', '~> 0.3.18'
-gem 'pg'
+# gem 'pg'
+
+group :development, :test do
+  gem 'sqlite3'
+end
+
+group :production do  #Done for heroku purposes
+  gem 'pg'
+end
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

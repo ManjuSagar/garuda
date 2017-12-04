@@ -68,8 +68,8 @@ class CustomersController < ApplicationController
     d2 = Date.today.to_s + " 23:59:59"
     @highest_transaction = Transaction.all.where("date >= ? AND date <= ?", d1, d2).order("coupon_amount DESC").first
     puts @highest_transaction.inspect
-    @customer = Customer.find_by_id(@highest_transaction.customer_id )
-    if(@customer.nil?)
+    @customer = Customer.find_by_id(@highest_transaction.customer_id ) if @highest_transaction
+    if(@customer.nil? || @highest_transaction.nil?)
       respond_to do |format|
         format.json do
           render json:{:no_data => "true"}

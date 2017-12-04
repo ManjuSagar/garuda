@@ -23,7 +23,16 @@ class CustomersController < ApplicationController
   end
   
   def show
+    date = params[:filtered_date]
+    if(date)
+      d1 = date + " 00:00:00"
+      d2 = date + " 23:59:59"
+    else
+      d1 = Date.today.to_s + " 00:00:00"
+      d2 = Date.today.to_s + " 23:59:59"
+    end
     mobile = params[:id]
+    @selectedDate = date || Date.today
     @c = Customer.find_by_mobile(mobile)
     if(@c.nil?)
       flash[:error] = "Customer doesn't exist"

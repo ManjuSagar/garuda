@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : "Garuda" %></title>
 
-    
+
     <%= csrf_meta_tags %>
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
@@ -36,7 +36,7 @@
     <!-- Size should be 32 x 32 pixels -->
     <%= favicon_link_tag 'favicon.ico', :rel => 'shortcut icon' %>
 
-    
+
   </head>
   <body>
 
@@ -93,7 +93,7 @@
               cache: false,
               success: function(data){
                   var name = "";
-                  if(data["nodata"]){
+                  if(data["no_data"] == "true"){
                       name = "No Customer"
                   } else {
                      name =  data["name"]

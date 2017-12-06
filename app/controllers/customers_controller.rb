@@ -102,4 +102,26 @@ class CustomersController < ApplicationController
     render "index"
   end
 
+  def csv_download
+    from_date = params[:from_date] + " 00:00:00"
+    to_date = params[:to_date] + " 23:59:59"
+    all = Transaction.all.where("date >= ? AND date <= ?", from_date, to_date)
+    file = Tempfile.new("Customers#{Time.now.to_f}.csv")
+    file_name = "Customers(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
+    path = file.path
+    @filteredCustomers = Customer.where("id in (select customer_id from transactions where date
+                                           >= ? AND date <= ?)", from_date, to_date)
+
+    CSV.open(path, "w") do |csv|
+      columns = Customer.customer_column_names
+      csv << columns + ["total_spent", "coupon_amount"]
+      @filteredCustomers.all.each do |c|
+        amt = c.transactions.where("date >= ? AND date <= ?", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
+          v = c.attributes.values_at(*columns) + [c.total_spent_by_customer, amt]
+          csv << v
+        end
+        send_file path, filename: file_name
+      end
+  end
+
 end

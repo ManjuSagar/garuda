@@ -45,4 +45,8 @@ class Customer < ActiveRecord::Base
      self.is_winner = true
    end
 
+  def self.customer_column_names
+    columns = column_names
+  end
+
 end

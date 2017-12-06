@@ -56,9 +56,10 @@ class StoresController < ApplicationController
   def import
     file = params[:file]
     if(file)
-      CSV.foreach(file.path, headers: true) do |row|
-        name = row.to_hash["store_name"].strip
-        Store.find_or_create_by(name: name)
+      CSV.foreach(file.path, headers: true, :encoding => 'ISO-8859-1') do |row|
+        next if row == nil
+        name = row.try(:strip)
+        Store.find_or_create_by(name: row.to_s)
       end
     end
     redirect_to stores_path

@@ -14,7 +14,7 @@ VoucherMaster.delete_all
 Voucher.delete_all
 User.delete_all
 
-
+	
 User.create!(:email => 'mln@tws.com', :password => 'password', :password_confirmation => 'password', :name => "MLN Krishnan")
 User.create!(:email => 'admin@siiplconsulting.com', :password => 'garuda@admin@123', :password_confirmation => 'garuda@admin@123', :name => "Garuda Event Admin", :role => "admin")
 User.create!(:email => 'garudaevent@siiplconsulting.com', :password => 'garuda@123', :password_confirmation => 'garuda@123', :name => "Garuda Event")
@@ -27,9 +27,9 @@ File.open(current_path+"/stores.csv").each do |line|
   s.save!
 end
 
-File.open(current_path+"/barcodes.csv").each do |line|
-  VoucherMaster.create! barcode_number: line.strip, serial: '', book: ''
-end
+#File.open(current_path+"/barcodes.csv").each do |line|
+ # VoucherMaster.create! barcode_number: line.strip, serial: '', book: ''
+#end
 
 
 

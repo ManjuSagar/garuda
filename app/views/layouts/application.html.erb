@@ -54,9 +54,11 @@
             <!-- <li><%= link_to "Coupons", vouchers_path%></li> -->
             <li><%= link_to "Select Winner", new_winner_path%></li>
             <li><%= link_to "Reports", reports_path%></li>
-            <li><%= link_to "Highest Shopper:" %></li><li id="highest-Shopper" style="margin-top: 15px; background: yellowgreen"></li>
+            <li><%= link_to "Highest Shopper:"%></li><li id="highest-Shopper" style="margin-top: 15px; background: yellowgreen"></li>
           </ul>
+
         <%end%>
+
         <ul class="nav navbar-nav pull-right">
           <% if user_signed_in? %>
             <li><%= link_to "Sign Out", destroy_user_session_path, :method => "delete"%></li>
@@ -73,6 +75,7 @@
           <%= yield %>
         </div>
       </div><!--/row-->
+
 
       <!-- <footer class="footer">
         <p>&copy; Company 2014</p>

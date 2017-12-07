@@ -41,7 +41,8 @@ class Customer < ActiveRecord::Base
      end
    end
 
-   def mark_as_winner
+   def mark_as_winner(date)
+     self.winning_date = date 
      self.is_winner = true
    end
 

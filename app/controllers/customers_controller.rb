@@ -116,8 +116,9 @@ class CustomersController < ApplicationController
       columns = Customer.customer_column_names
       csv << columns + ["total_spent", "coupon_amount"]
       @filteredCustomers.all.each do |c|
+        total_spent_amount = c.transactions.where("date >= ? AND date <= ?", from_date, to_date).map{|t| t.total_amount}.inject {|total, t| total + t}
         amt = c.transactions.where("date >= ? AND date <= ?", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
-          v = c.attributes.values_at(*columns) + [c.total_spent_by_customer, amt]
+          v = c.attributes.values_at(*columns) + [total_spent_amount, amt]
           csv << v
         end
         send_file path, filename: file_name

@@ -75,10 +75,18 @@ class CustomersController < ApplicationController
   def get_highest_shopper
     d1 = Date.today.to_s + " 00:00:00"
     d2 = Date.today.to_s + " 23:59:59"
-    @highest_transaction = Transaction.all.where("date >= ? AND date <= ?", d1, d2).order("coupon_amount DESC").first
-    puts @highest_transaction.inspect
-    @customer = Customer.find_by_id(@highest_transaction.customer_id ) if @highest_transaction
-    if(@customer.nil? || @highest_transaction.nil?)
+    # @highest_transaction = Transaction.all.where("date >= ? AND date <= ?", d1, d2).order("coupon_amount DESC").first
+    # puts "AAAAAAAAAAAAA@h #{@highest_transaction}"
+    # puts @highest_transaction.inspect
+    arr ={}
+    @customer = Customer.all.each do |c|
+      amt = c.transactions.where("date >= ? AND date <= ?", d1, d2).map{|t| t.coupon_amount}.inject {|total, t| total + t}
+      arr[c.id] = amt
+    end
+    customer_id = arr.compact.max_by{|k,v| v}
+    @customer  = Customer.find_by_id(customer_id[0]) if customer_id
+
+    if(@customer.nil?)
       respond_to do |format|
         format.json do
           render json:{:no_data => "true"}

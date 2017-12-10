@@ -79,7 +79,7 @@ class CustomersController < ApplicationController
     # puts "AAAAAAAAAAAAA@h #{@highest_transaction}"
     # puts @highest_transaction.inspect
     arr ={}
-    @customer = Customer.all.each do |c|
+    @customer = Customer.all.includes(:transactions).each do |c|
       
       transction_amt = c.transactions.where("date >= ? AND date <= ?", d1, d2).map{|t| t.coupon_amount}.try(:sum)
       # transctions.each do |tra|

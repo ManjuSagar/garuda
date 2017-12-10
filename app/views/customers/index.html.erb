@@ -37,7 +37,7 @@
     </tr>
   </thead>
   <tbody>
-    <% @filteredCustomers.sort_by {|c| c.total_spent(@selectedDate)}.reverse.each do |c| %>
+    <% @filteredCustomers.sort_by {|c| c.coupon_amount(@selectedDate)}.reverse.each do |c| %>
     <tr>
       <td><%= c.id %></td>
       <td><%= link_to c.name, customer_path(:id => c.mobile, :filtered_date => @selectedDate), :format => 'html'%></td>

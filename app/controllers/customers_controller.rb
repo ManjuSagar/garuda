@@ -80,12 +80,12 @@ class CustomersController < ApplicationController
     # puts @highest_transaction.inspect
     arr ={}
     @customer = Customer.all.each do |c|
-      amt = 0
-      transctions = c.transactions
-      transctions.each do |tra|
-         amt += tra.transaction_items.where("date >= ? AND date <= ?", d1, d2).map{|t| t.amount}.try(:sum)
-      end
-      arr[c.id] = amt
+      
+      transction_amt = c.transactions.where("date >= ? AND date <= ?", d1, d2).map{|t| t.coupon_amount}.try(:sum)
+      # transctions.each do |tra|
+      #    amt += tra.transaction_items.where("date >= ? AND date <= ?", d1, d2).map{|t| t.amount}.try(:sum)
+      # end
+      arr[c.id] = transction_amt
     end
     customer_id = arr.compact.max_by{|k,v| v}
     @customer  = Customer.find_by_id(customer_id[0]) if customer_id
@@ -110,7 +110,7 @@ class CustomersController < ApplicationController
     body = JSON.parse(request.body.read)
     puts body
     puts body["date"]
-    @customers = Customer.includes(:transactions).where("transactions.date" =>body["date"])
+    @customers = Customer.includes(:transactions).where("transactions.date" =>body["date"])#.order(coupon_amount: :desc)
     render "index"
   end
 

@@ -57,15 +57,15 @@ class CustomersController < ApplicationController
       d1 = date + " 00:00:00"
       d2 = date + " 23:59:59"
     else
-      d1 = Date.today.to_s + " 00:00:00"
-      d2 = Date.today.to_s + " 23:59:59"
+      # d1 = Date.today.to_s + " 00:00:00"
+      # d2 = Date.today.to_s + " 23:59:59"
     end
 
     @customers = Customer.all
     @filteredCustomers = Customer.where("id in (select customer_id from transactions where date
                                            >= ? AND date <= ?)", d1, d2)
     # @filteredTrasctions = Customer.includes(:transactions).where("transactions.date >= ? and transactions.date <= ? order by transactions")
-    @selectedDate = date || Date.today
+    @selectedDate = date
     respond_to do |format|
       format.html
       format.csv { send_data @customers.to_csv }

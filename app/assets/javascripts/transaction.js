@@ -124,26 +124,28 @@ var Transaction =  function(argument) {
       var fieldAmount = $(amountField).val() * 1.0;
       if(fieldAmount >= 1000){
         if(fieldAmount < 20000){
-          // var remainingAmount = fieldAmount
+          var remainingAmount = fieldAmount
           resrictedAmount += fieldAmount;
         } else {
-            resrictedAmount += 20000
+            resrictedAmount += 20000  //If bill value is greater than 20k then conside only 20000
         }
-        // var numRows = fieldAmount/1000;
-        // if(numRows >= 20){
-        //   numRows = 20;
-        // }
-        // totalRows = totalRows + numRows;
+        var numRows = Math.floor(fieldAmount/1000);
+        if(numRows >= 20){
+          numRows = 20;
+        }
+        totalRows = totalRows + numRows;
       }else{
-        // var remainingAmount = fieldAmount;
+        var remainingAmount = fieldAmount;
         resrictedAmount += fieldAmount;
+        totalRows = Math.floor(resrictedAmount/1000);
       }
     });
-    // restrictedRows = parseInt(resrictedAmount / 1000);
+    //restrictedRows = parseInt(resrictedAmount / 1000); Commented by manju, need to validate
 
-    // totalRows = restrictedRows + totalRows;
-
-    /*for (var i = 0; i < totalRows; i++) {
+    totalRows = restrictedRows + totalRows;
+    totalRows = Math.floor(totalRows)
+    alert(totalRows)
+    for (var i = 0; i < totalRows; i++) {
       var newRow = $($(".voucher-form-template").clone()) ;
       newRow.appendTo(voucherForms);
       newRow.removeClass('voucher-form-template');
@@ -165,11 +167,11 @@ var Transaction =  function(argument) {
       });
 
       newRow.removeClass('hide');
-    }*/
-    // $("#coupons-count").html(totalRows)
+    }
+    $("#coupons-count").html(totalRows);
     $("#coupon-amount").val(resrictedAmount);
     $("#total-amount").val(totalAmount);
-    //$("#VoucherDetailsSection").removeClass("hide");
+    $("#VoucherDetailsSection").removeClass("hide");
   }
 
   var generateTotal = function(){

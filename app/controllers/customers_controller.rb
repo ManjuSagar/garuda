@@ -72,25 +72,47 @@ class CustomersController < ApplicationController
     end
   end
 
+  def list_silver_customers
+    @customers = Customer.silver_eligble_customers_for_the_day || []
+    @valid_customers = []
+    @customers.each do |customer|
+      if customer['sum'].to_i > 3000
+        @valid_customers << customer
+      end
+    end
+    @valid_customers  
+  end  
+
+  def top_five_customers
+    @valid_customers = Customer.get_top_customers(5)
+    render :list_silver_customers
+  end
+
+  def issue_silver
+    @customer = Customer.find(params[:id])
+    unless @customer.got_silver?
+      @customer.got_silver = true
+      @customer.save!
+      redirect_to :action => :list_silver_customers  
+    end
+  end 
+
   def get_highest_shopper
-    d1 = Date.today.to_s + " 00:00:00"
-    d2 = Date.today.to_s + " 23:59:59"
+    # d1 = Date.today.to_s + " 00:00:00"
+    # d2 = Date.today.to_s + " 23:59:59"
     # @highest_transaction = Transaction.all.where("date >= ? AND date <= ?", d1, d2).order("coupon_amount DESC").first
     # puts "AAAAAAAAAAAAA@h #{@highest_transaction}"
     # puts @highest_transaction.inspect
-    arr ={}
-    @customer = Customer.all.includes(:transactions).each do |c|
-      
-      transction_amt = c.transactions.where("date >= ? AND date <= ?", d1, d2).map{|t| t.coupon_amount}.try(:sum)
-      # transctions.each do |tra|
-      #    amt += tra.transaction_items.where("date >= ? AND date <= ?", d1, d2).map{|t| t.amount}.try(:sum)
-      # end
-      arr[c.id] = transction_amt
-    end
-    customer_id = arr.compact.max_by{|k,v| v}
-    @customer  = Customer.find_by_id(customer_id[0]) if customer_id
-
-    if(@customer.nil?)
+    @customer = Customer.get_top_customers(1)
+    #@customer = ActiveRecord::Base.connection.execute(sql)
+    if (@customer.count > 0)
+      respond_to do |format|
+        format.json do
+          json = @customer
+          render :json => json
+        end
+      end
+    else 
       respond_to do |format|
         format.json do
           render json:{:no_data => "true"}
@@ -98,12 +120,35 @@ class CustomersController < ApplicationController
         end
       end
     end
-    respond_to do |format|
-      format.json do
-        json = @customer.to_json
-        render :json => json
-      end
-    end
+
+    # arr ={}
+    # @customer = Customer.all.includes(:transactions).each do |c|
+    
+    #   #manju commentd
+    #   #transction_amt = c.transactions.where("date >= ? AND date <= ?", d1, d2).map{|t| t.coupon_amount}.try(:sum)
+    #   transction_amt = c.transactions.map{|t| t.coupon_amount}.try(:sum)
+    #   # transctions.each do |tra|
+    #   #    amt += tra.transaction_items.where("date >= ? AND date <= ?", d1, d2).map{|t| t.amount}.try(:sum)
+    #   # end
+    #   arr[c.id] = transction_amt
+    # end
+    # customer_id = arr.compact.max_by{|k,v| v}
+    # @customer  = Customer.find_by_id(customer_id[0]) if customer_id
+
+    # if(@customer.nil?)
+    #   respond_to do |format|
+    #     format.json do
+    #       render json:{:no_data => "true"}
+    #       return
+    #     end
+    #   end
+    # end
+    # respond_to do |format|
+    #   format.json do
+    #     json = @customer.to_json
+    #     render :json => json
+    #   end
+    # end
   end
 
   def filter_by_date
@@ -126,11 +171,13 @@ class CustomersController < ApplicationController
 
     CSV.open(path, "w") do |csv|
       columns = Customer.customer_column_names
-      csv << columns + ["total_spent", "coupon_amount"]
+      csv << columns + ["total_spent", "coupon_amount", "vouchers"]
       @filteredCustomers.all.each do |c|
+        vouchers = c.transactions.includes(:vouchers).pluck("vouchers.barcode_number")
+        vouchers = vouchers.join("- ") if vouchers.present?
         total_spent_amount = c.transactions.where("date >= ? AND date <= ?", from_date, to_date).map{|t| t.total_amount}.inject {|total, t| total + t}
         amt = c.transactions.where("date >= ? AND date <= ?", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
-          v = c.attributes.values_at(*columns) + [total_spent_amount, amt]
+          v = c.attributes.values_at(*columns) + [total_spent_amount, amt, vouchers]
           csv << v
         end
         send_file path, filename: file_name

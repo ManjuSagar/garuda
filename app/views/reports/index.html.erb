@@ -29,6 +29,18 @@
       <td> To : <input type="date" class="form-control rcontrol typeahead download-all-purchase-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-all-purchase", "transaction_items_download")' >Download Purchases</a></td>
     </tr>
+    <tr>
+      <td>Vouchers</td>
+      <td> From: <input type="date" class="form-control rcontrol typeahead download-all-vouchers-from-date" value=<%= Date.today%> /></td>
+      <td> To : <input type="date" class="form-control rcontrol typeahead download-all-vouchers-to-date" value=<%= Date.today%> /></td>
+      <td><a href="#" onclick='return checkDate("download-all-vouchers", "vouchers_download")' >Download Vouchers</a></td>
+    </tr>
+     <tr>
+      <td>Shops</td>
+      <td> From: <input type="date" class="form-control rcontrol typeahead download-all-shops-from-date" value=<%= Date.today%> /></td>
+      <td> To : <input type="date" class="form-control rcontrol typeahead download-all-shops-to-date" value=<%= Date.today%> /></td>
+      <td><a href="#" onclick='return checkDate("download-all-shops", "stores_download")' >Download Shops</a></td>
+    </tr>
     <!--<tr>-->
       <!--<td>All Coupons</td>-->
       <!--<td><a href="<%= vouchers_path(:format => 'csv')%>">Download Coupons</a></td>-->

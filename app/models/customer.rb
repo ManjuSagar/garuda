@@ -26,6 +26,19 @@ class Customer < ActiveRecord::Base
     self.transactions.map {|t| t.all_coupons}.join("|")
    end
 
+   def self.silver_eligble_customers_for_the_day
+     d1 = Date.today.to_s + " 00:00:00"
+     d2 = Date.today.to_s + " 23:59:59"
+     #Customer.joins(:transactions).where("transactions.date >= ? AND transactions.date <= ? and transactions.coupon_amount >= 3000", d1, d2)
+     sql = "select customers.id, customers.name, customers.mobile, customers.got_silver, SUM(transactions.coupon_amount) from customers  INNER JOIN transactions ON  customers.id = transactions.customer_id WHERE transactions.date >= '"+ d1 +"' and transactions.date <= '" + d2 +"' GROUP BY customers.id"
+     ActiveRecord::Base.connection.execute(sql) 
+   end
+
+   def self.get_top_customers(limit)
+      sql = "select c.id, c.name, c.mobile, c.got_silver, SUM(t.coupon_amount), SUM(t.total_sum) as total_amount from customers c INNER JOIN transactions t ON c.id = t.customer_id GROUP BY C.iD ORDER BY sum DESC limit " + limit.to_s + ";"
+      ActiveRecord::Base.connection.execute(sql) 
+   end
+
    def total_spent_by_customer
      self.transactions.map{|t| t.total_amount}.inject {|total, t| total + t}
    end

@@ -16,8 +16,10 @@ gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) support
 
 gem "twitter-bootstrap-rails"
 
-gem 'mysql2', '~> 0.3.18'
-#gem 'pg'
+#gem 'mysql2', '~> 0.3.18'
+
+gem 'pg', '~> 0.18.4'
+
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 

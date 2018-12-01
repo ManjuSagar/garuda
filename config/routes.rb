@@ -65,9 +65,14 @@ Rails.application.routes.draw do
   get "customers/get_cutomer/:id" => "customers#get_customer", as: :customer_info
 
   get "/get_highest_shopper" => "customers#get_highest_shopper"
+  get "/silver_customer" => 'customers#list_silver_customers'
+  post "/issue_silver" => 'customers#issue_silver'
+  get "/top_five_customers" => 'customers#top_five_customers'
   get '/transactions_download/:from_date/:to_date', to: "transactions#csv_download"
   get '/customers_download/:from_date/:to_date', to: "customers#csv_download"
   get '/transaction_items_download/:from_date/:to_date', to: "transaction_items#csv_download"
+  get '/stores_download/:from_date/:to_date', to: "stores#csv_download"
+  get '/vouchers_download/:from_date/:to_date', to: "vouchers#csv_download"
   post "/customers", to: "customers#index"
   post "/upload_stores",  to: "stores#import"
 end

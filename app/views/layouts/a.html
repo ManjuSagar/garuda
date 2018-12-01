@@ -51,13 +51,10 @@
             <li><%= link_to "New Transaction", new_transaction_path%></li>
             <li><%= link_to "Customers", customers_path%></li>
             <li><%= link_to "Stores", stores_path%></li>
-            <li><%= link_to "Coupons", vouchers_path%></li>
+            <!-- <li><%= link_to "Coupons", vouchers_path%></li> -->
             <li><%= link_to "Select Winner", new_winner_path%></li>
             <li><%= link_to "Reports", reports_path%></li>
-            <% if (Time.now.strftime("%Y-%m-%d") == "2018-12-01" || Time.now.strftime("%Y-%m-%d") == "2018-12-09") %>
-              <li><%= link_to "Silver customers", silver_customer_path %></li>
-            <% end %>
-            <li><%= link_to "Highest Shopper:", top_five_customers_path%></li><li id="highest-Shopper" style="margin-top: 15px; background: yellowgreen"></li>
+             <li><a href="#" rel="tooltip" data-placement="right" id="highest-Shopper" data-original-title="">Highest Shopper</a></li>
           </ul>
 
         <%end%>
@@ -86,13 +83,14 @@
  -->
     </div> <!-- /container -->
     <%= javascript_include_tag "application" %>
-    
-
     <script type="text/javascript">
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip(); 
+    });
       setTimeout(function(){
         scrollTo(0,-1);
           listHighestShopper();
-      },30000);
+      },300);
 
       var listHighestShopper = function(){
           $.ajax({
@@ -100,18 +98,18 @@
               url: "/get_highest_shopper",
               cache: false,
               success: function(data){
-                  data = data[0]
                   var name = "";
                   if(data["no_data"] == "true"){
                       name = "No Customer"
                   } else {
                      name =  data["name"]
                   }
+                  var name = "Highest Shopper:  " + "<span style=\"color: blue\">"+ name +"</span>";
                   $("#highest-Shopper").html(name);
+                  $("#highest-Shopper").attr("data-original-title", "Mobile: " +data["mobile"]+ ", Email: " + data["email"]);
               }
           })
       }
-      listHighestShopper();
     </script>
   </body>
 </html>

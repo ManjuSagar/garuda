@@ -30,7 +30,7 @@
     <tr>
       <td><%= @transaction.id %></td>
       <td><%= @transaction.total_amount %></td>
-      <td><%= @transaction.date.utc.localtime.strftime("%Y-%m-%d %H:%M:%S")%></td>
+      <td><%= @transaction.date.utc.localtime.strftime("%Y-%m-%d")%></td>
       <% if @transaction.has_winner_doc?%>
         <td><a href="<%= @transaction.winner_doc.url%>">Download</a></td>
       <%end%>

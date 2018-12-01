@@ -65,4 +65,25 @@ class StoresController < ApplicationController
     redirect_to stores_path
   end
 
+  def csv_download
+    #all = TransactionItem.all.where("date >= ? AND date <= ?", params[:from_date], params[:to_date])
+    d1 = params[:from_date]
+    d2 = params[:to_date]
+    sql = "select SUM(t.amount), s.id, s.name from stores s INNER JOIN transaction_items t ON t.store_id = s.id where t.date >='"+ d1 + "' and t.date <= '" + d2 + "' GROUP BY s.id;"
+    all = ActiveRecord::Base.connection.execute(sql)
+    file = Tempfile.new("Stores_items#{Time.now.to_f}.csv")
+    file_name = "Stores_items(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
+    path = file.path
+
+    CSV.open(path, "w") do |csv|
+      columns = ["id"] + ["Name"] + ["Total bill amount"] 
+      csv <<  columns
+      all.each do |c|
+        v = [c['id']] + [c['name']] +[c['sum']]
+        csv << v
+      end
+      send_file path, filename: file_name
+    end
+  end
+
 end

@@ -144,7 +144,6 @@ var Transaction =  function(argument) {
 
     totalRows = restrictedRows + totalRows;
     totalRows = Math.floor(totalRows)
-    alert(totalRows)
     for (var i = 0; i < totalRows; i++) {
       var newRow = $($(".voucher-form-template").clone()) ;
       newRow.appendTo(voucherForms);

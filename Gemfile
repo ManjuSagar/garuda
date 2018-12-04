@@ -18,8 +18,9 @@ gem "twitter-bootstrap-rails"
 
 #gem 'mysql2', '~> 0.3.18'
 
-gem 'pg', '~> 0.18.4'
+gem 'pg', '~> 0.11'
 
+#gem 'pg', '~> 0.18'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 

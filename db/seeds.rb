@@ -13,7 +13,7 @@ TransactionItem.delete_all
 VoucherMaster.delete_all
 Voucher.delete_all
 User.delete_all
-
+VoucherMaster.delete_all
 	
 User.create!(:email => 'mln@tws.com', :password => 'password', :password_confirmation => 'password', :name => "MLN Krishnan")
 User.create!(:email => 'admin@siiplconsulting.com', :password => 'garuda@admin@123', :password_confirmation => 'garuda@admin@123', :name => "Garuda Event Admin", :role => "admin")
@@ -22,14 +22,16 @@ User.create!(:email => 'garudaevent@siiplconsulting.com', :password => 'garuda@1
 (1..30).to_a.each {|n| User.create!(:email => "user#{n}@email.com", :password => 'password', :password_confirmation => 'password', :name => "User#{n}")}
 
 current_path = File.dirname(__FILE__)
-File.open(current_path+"/stores.csv").each do |line|
+File.open(current_path+"/2018/stores.csv").each do |line|
   s = Store.new name:line.strip
   s.save!
 end
 
-#File.open(current_path+"/barcodes.csv").each do |line|
- # VoucherMaster.create! barcode_number: line.strip, serial: '', book: ''
-#end
+File.open(current_path+"/2018/barcodes.csv").each_with_index do |line, index|
+  puts line.strip
+  puts index
+  VoucherMaster.create! barcode_number: line.strip, serial: '', book: ''
+end
 
 
 

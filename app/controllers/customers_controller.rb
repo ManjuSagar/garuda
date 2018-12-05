@@ -73,13 +73,7 @@ class CustomersController < ApplicationController
   end
 
   def list_silver_customers
-    @customers = Customer.silver_eligble_customers_for_the_day || []
-    @valid_customers = []
-    @customers.each do |customer|
-      if customer['sum'].to_i > 3000
-        @valid_customers << customer
-      end
-    end
+    @valid_customers = Customer.silver_eligble_customers_for_the_day || []
     @valid_customers  
   end  
 

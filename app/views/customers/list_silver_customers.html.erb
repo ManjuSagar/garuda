@@ -8,7 +8,6 @@
       <th> Total Amount </th>
       <% if controller.action_name == 'list_silver_customers' %>
         <th>Got silver coin?</th>
-        <th> Action </th>
       <% end %>
     </tr>
   </thead>
@@ -17,16 +16,10 @@
       <tr>
         <td><%=c['name'] %></td>
         <td><%=c['mobile']%></td>  
-        <td><%=c['sum'] %></td>
-        <td><%=c['total_amount'] %></td>
+        <td><%=c['coupon_amount'] %></td>
+        <td><%=c['total_sum'] %></td>
         <% if controller.action_name == 'list_silver_customers' %>
           <td><%=c['got_silver'] == 'f'? "No" : "YES" %></td>
-          <td>
-            <% if c['got_silver'] == 'f' %> 
-              <%= button_to "Issue Silver", { :action => "issue_silver", :params=> {:id=> c['id']}}, :method => :post %>
-            
-            <% end %>  
-          </td>
         <% end %>
       </tr>
     <% end %>

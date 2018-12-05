@@ -59,4 +59,23 @@ class WinnersController < ApplicationController
     flash[:notice] = 'Winner updated succesfully.'
     redirect_to new_winner_path #transaction_path v.transact.id
   end
+
+  def csv_download
+    from_date = params[:from_date] + " 00:00:00"
+    to_date = params[:to_date] + " 23:59:59"
+    all = Customer.all.where("winning_date >= ? AND winning_date <= ?", from_date, to_date)
+    file = Tempfile.new("Customers_#{Time.now.to_f}.csv")
+    file_name = "Customers(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
+    path = file.path
+
+    CSV.open(path, "w") do |csv|
+      columns = ["id"] + ["Name"] + ["Mobile"] + ["Winning Date"] + ["Email"]
+      csv <<  columns
+      all.each do |c|
+        v = [c.id] + [c.name] +[c.mobile] + [c.winning_date] + [c.email]
+        csv << v
+      end
+      send_file path, filename: file_name
+    end
+  end
 end

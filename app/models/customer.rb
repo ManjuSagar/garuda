@@ -30,7 +30,7 @@ class Customer < ActiveRecord::Base
      d1 = Date.today.to_s + " 00:00:00"
      d2 = Date.today.to_s + " 23:59:59"
      #Customer.joins(:transactions).where("transactions.date >= ? AND transactions.date <= ? and transactions.coupon_amount >= 3000", d1, d2)
-     sql = "select customers.id, customers.name, customers.mobile, customers.got_silver, transactions.coupon_amount, transactions.total_sum from customers INNER JOIN transactions ON  customers.id = transactions.customer_id WHERE transactions.date >= '"+ d1 +"' and transactions.date <= '" + d2 +"' and transactions.total_sum > 3000;"
+     sql = "select customers.id, customers.name, customers.mobile, customers.got_silver, transactions.coupon_amount, transactions.total_sum from customers INNER JOIN transactions ON  customers.id = transactions.customer_id WHERE transactions.date >= '"+ d1 +"' and transactions.date <= '" + d2 +"' and transactions.total_sum >= 3000;"
      res = ActiveRecord::Base.connection.execute(sql)
      res  
    end
@@ -55,8 +55,9 @@ class Customer < ActiveRecord::Base
      end
    end
 
-   def mark_as_winner(date)
+   def mark_as_winner(date, voucher)
      self.winning_date = date 
+     self.winning_bar_code = voucher
      self.is_winner = true
    end
 

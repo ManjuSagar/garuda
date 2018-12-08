@@ -16,8 +16,8 @@
       <tr>
         <td><%=c['name'] %></td>
         <td><%=c['mobile']%></td>  
-        <td><%=c['coupon_amount'] %></td>
-        <td><%=c['total_sum'] %></td>
+        <td><%=c['coupon_amount'] || c['sum'] %></td>
+        <td><%=c['total_sum'] || c['total_amount'] %></td>
         <% if controller.action_name == 'list_silver_customers' %>
           <td><%=c['got_silver'] == 'f'? "No" : "YES" %></td>
         <% end %>

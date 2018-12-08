@@ -297,10 +297,10 @@ var Transaction =  function(argument) {
            $("#Errors").text("Cutomer does not exist, Please continue with new customer").removeClass('hide');
          }else{
            var isWinner = data["is_winner"];
-           if(isWinner) {
-             disableVouchersForWinner();
-               alert("This customer has already won the prize.");
-           } else {
+           //if(isWinner) {
+             //disableVouchersForWinner();
+               //alert("This customer has already won the prize.");
+           //} else {
                $(".name").val(data["name"]);
                $(".email").val(data["email"]);
                $(".gender").val(data["gender"]);
@@ -309,7 +309,7 @@ var Transaction =  function(argument) {
                $(".address").val(data["address"]);
                $(".remarks").val(data["remarks"]);
                $("#CustomerData").removeClass("hide");
-           }
+           //}
 
          }
        }

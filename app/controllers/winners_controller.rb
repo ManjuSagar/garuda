@@ -51,7 +51,7 @@ class WinnersController < ApplicationController
 
 
 
-    customer.mark_as_winner(date)
+    customer.mark_as_winner(date, number)
     customer.save!
 
 
@@ -69,10 +69,10 @@ class WinnersController < ApplicationController
     path = file.path
 
     CSV.open(path, "w") do |csv|
-      columns = ["id"] + ["Name"] + ["Mobile"] + ["Winning Date"] + ["Email"]
+      columns = ["id"] + ["Name"] + ["Mobile"] + ["Winning Date"] + ["Email"] + ["Total Coupon value"] + ["Total Purchase value"] + ["Coupon"]
       csv <<  columns
       all.each do |c|
-        v = [c.id] + [c.name] +[c.mobile] + [c.winning_date] + [c.email]
+        v = [c.id] + [c.name] +[c.mobile] + [c.winning_date] + [c.email] + [c.transactions.sum(:coupon_amount)] + [c.transactions.sum(:total_sum)] + [c.winning_bar_code] 
         csv << v
       end
       send_file path, filename: file_name

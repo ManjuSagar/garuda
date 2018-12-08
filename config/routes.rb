@@ -73,6 +73,7 @@ Rails.application.routes.draw do
   get '/transaction_items_download/:from_date/:to_date', to: "transaction_items#csv_download"
   get '/stores_download/:from_date/:to_date', to: "stores#csv_download"
   get '/vouchers_download/:from_date/:to_date', to: "vouchers#csv_download"
+  get '/winner_report/:from_date/:to_date', to: "winners#csv_download"
   post "/customers", to: "customers#index"
   post "/upload_stores",  to: "stores#import"
 end

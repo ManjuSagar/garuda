@@ -48,6 +48,13 @@
       <td> To : <input type="date" class="form-control rcontrol typeahead winner-report-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("winner-report", "winner_report")' >Download Winners</a></td>
     </tr>
+
+     <tr>
+      <td>Silver Winners</td>
+      <td> From: <input type="date" class="form-control rcontrol typeahead silver-winner-from-date" value=<%= Date.today%> /></td>
+      <td> To : <input type="date" class="form-control rcontrol typeahead silver-winner-to-date" value=<%= Date.today%> /></td>
+      <td><a href="#" onclick='return checkDate("silver-winner", "silver_winner")' >Silver Winners</a></td>
+    </tr>
     <!--<tr>-->
       <!--<td>All Coupons</td>-->
       <!--<td><a href="<%= vouchers_path(:format => 'csv')%>">Download Coupons</a></td>-->

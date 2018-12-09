@@ -178,4 +178,29 @@ class CustomersController < ApplicationController
       end
   end
 
+  def silver_winners
+    from_date = params[:from_date] + " 00:00:00"
+    to_date = params[:to_date] + " 23:59:59"
+    #all = Transaction.all.where("date >= ? AND date <= ? AND total_sum >= 3000", from_date, to_date)
+    file = Tempfile.new("Silver_Customers#{Time.now.to_f}.csv")
+    file_name = "Silver_Customers(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
+    path = file.path
+    @filteredCustomers = Customer.where("id in (select customer_id from transactions where date
+                                           >= ? AND date <= ? AND total_sum >= 3000)", from_date, to_date)
+
+    CSV.open(path, "w") do |csv|
+      columns = Customer.customer_column_names
+      csv << columns + ["total_spent", "coupon_amount", "vouchers"]
+      @filteredCustomers.all.each do |c|
+        vouchers = c.transactions.includes(:vouchers).pluck("vouchers.barcode_number")
+        vouchers = vouchers.join("- ") if vouchers.present?
+        total_spent_amount = c.transactions.where("date >= ? AND date <= ? AND total_sum >= 3000", from_date, to_date).map{|t| t.total_amount}.inject {|total, t| total + t}
+        amt = c.transactions.where("date >= ? AND date <= ? AND total_sum >= 3000", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
+          v = c.attributes.values_at(*columns) + [total_spent_amount, amt, vouchers]
+          csv << v
+        end
+        send_file path, filename: file_name
+      end
+  end
+
 end

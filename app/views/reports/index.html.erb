@@ -11,32 +11,32 @@
   </thead>
   <tbody>
     <tr>
-      <td>Customers With Total Purchase Amount</td>
+      <td>Customer Report</td>
       <td> From: <input type="date" class="form-control rcontrol typeahead download-customers-from-date" value=<%= Date.today%> /></td>
       <td> To : <input type="date" class="form-control rcontrol typeahead download-customers-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-customers", "customers_download")'>Download Customers</a></td>
       <!--<td><a href="<%#= customers_path(:format => 'csv')%>">Download Customers</a></td>-->
     </tr>
     <tr>
-      <td>All Transactions</td>
+      <td>Transaction Wise Report</td>
       <td> From: <input type="date" class="form-control rcontrol typeahead download-transactions-from-date" value=<%= Date.today%> /></td>
       <td> To : <input type="date" class="form-control rcontrol typeahead download-transactions-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-transactions", "transactions_download")'>Download Transactions</a></td>
     </tr>
     <tr>
-      <td>All Purchases</td>
+      <td> Bill wise Report </td>
       <td> From: <input type="date" class="form-control rcontrol typeahead download-all-purchase-from-date" value=<%= Date.today%> /></td>
       <td> To : <input type="date" class="form-control rcontrol typeahead download-all-purchase-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-all-purchase", "transaction_items_download")' >Download Purchases</a></td>
     </tr>
     <tr>
-      <td>Vouchers</td>
+      <td>Voucher Report</td>
       <td> From: <input type="date" class="form-control rcontrol typeahead download-all-vouchers-from-date" value=<%= Date.today%> /></td>
       <td> To : <input type="date" class="form-control rcontrol typeahead download-all-vouchers-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-all-vouchers", "vouchers_download")' >Download Vouchers</a></td>
     </tr>
      <tr>
-      <td>Shops</td>
+      <td>Shop Wise Report</td>
       <td> From: <input type="date" class="form-control rcontrol typeahead download-all-shops-from-date" value=<%= Date.today%> /></td>
       <td> To : <input type="date" class="form-control rcontrol typeahead download-all-shops-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-all-shops", "stores_download")' >Download Shops</a></td>
@@ -50,7 +50,7 @@
     </tr>
 
      <tr>
-      <td>Silver Winners</td>
+      <td>Silver Coin Winner Report</td>
       <td> From: <input type="date" class="form-control rcontrol typeahead silver-winner-from-date" value=<%= Date.today%> /></td>
       <td> To : <input type="date" class="form-control rcontrol typeahead silver-winner-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("silver-winner", "silver_winner")' >Silver Winners</a></td>

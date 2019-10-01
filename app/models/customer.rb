@@ -36,7 +36,11 @@ class Customer < ActiveRecord::Base
    end
 
    def self.get_top_customers(limit)
-      sql = "select c.id, c.name, c.mobile, c.got_silver, SUM(t.coupon_amount), SUM(t.total_sum) as total_amount from customers c INNER JOIN transactions t ON c.id = t.customer_id GROUP BY C.iD ORDER BY sum DESC limit " + limit.to_s + ";"
+      current_time = Time.now.getutc
+      one_hour_less_time = current_time - 3600
+      starting_of_time = one_hour_less_time.strftime("%Y-%m-%d %H:00:00")
+      end_of_time = current_time.strftime("%Y-%m-%d %H:00:00")
+      sql = "select c.id, c.name, c.mobile, c.got_silver, SUM(t.coupon_amount), SUM(t.total_sum) as total_amount from customers c INNER JOIN transactions t ON c.id = t.customer_id AND created_at BETWEEN '"+ starting_of_time +"' AND '" + end_of_time + "' GROUP BY C.iD ORDER BY sum DESC limit " + limit.to_s + ";"
       ActiveRecord::Base.connection.execute(sql) 
    end
 

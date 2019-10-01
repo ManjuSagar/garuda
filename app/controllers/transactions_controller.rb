@@ -79,19 +79,20 @@ class TransactionsController < ApplicationController
     end
 
     errors = []
-    valid_vouchers = voucher_info.reject{|info| info["barCode"].blank? }
+    valid_vouchers = []
+    #valid_vouchers = voucher_info.reject{|info| info["barCode"].blank? }
     customer = Customer.find_by_mobile(customer_info["mobile"])
 
-    if (valid_vouchers.blank?)
-      if(!customer.nil? and !customer.is_winner?)
-        errors << "No coupons entered! Please enter atleast one coupon to save!"
-      end
-    else
-      duplicate_vouchers = valid_vouchers.group_by {|v| v["barCode"]}.select { |k,v| v.size > 1}.keys
-      duplicate_vouchers.each do |v|
-        errors << "Duplicate Coupon Codes entered! Coupon No: #{v}"
-      end
-    end
+    # if (valid_vouchers.blank?)  #Blocked vochers details 
+    #   if(!customer.nil? and !customer.is_winner?)
+    #     errors << "No coupons entered! Please enter atleast one coupon to save!"
+    #   end
+    # else
+    #   duplicate_vouchers = valid_vouchers.group_by {|v| v["barCode"]}.select { |k,v| v.size > 1}.keys
+    #   duplicate_vouchers.each do |v|
+    #     errors << "Duplicate Coupon Codes entered! Coupon No: #{v}"
+    #   end
+    # end
     if (errors.length > 0)
       render  :json => errors, :status => :bad_request
       return
@@ -103,19 +104,19 @@ class TransactionsController < ApplicationController
     
 
     if(customer.nil?)
-      isVoucherPresent = false
-      voucher_info.each do |a|
-        if a["barCode"].present?
-          isVoucherPresent = true
-          break
-        end
-      end
+      # isVoucherPresent = false
+      # voucher_info.each do |a|
+      #   if a["barCode"].present?
+      #     isVoucherPresent = true
+      #     break
+      #   end
+      # end
 
-      if(!isVoucherPresent)
-        errors << "No coupons entered! Please enter atleast one coupon to save!"
-        render :json => errors, :status => :bad_request
-        return
-      end
+      # if(!isVoucherPresent)
+      #   errors << "No coupons entered! Please enter atleast one coupon to save!"
+      #   render :json => errors, :status => :bad_request
+      #   return
+      # end
 
       customer = Customer.new(name: customer_info["name"].strip, email: customer_info["email"].strip, mobile: customer_info["mobile"].strip, address: customer_info["address"].strip, occupation: customer_info["occupation"].strip, gender: customer_info["gender"].strip, age: customer_info["age"].strip, remarks: customer_info["remarks"].strip)
     else

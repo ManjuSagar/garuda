@@ -22,7 +22,7 @@ User.create!(:email => 'garudaevent@siiplconsulting.com', :password => 'garuda@1
 (1..30).to_a.each {|n| User.create!(:email => "user#{n}@email.com", :password => 'password', :password_confirmation => 'password', :name => "User#{n}")}
 
 current_path = File.dirname(__FILE__)
-File.open(current_path+"/2018/stores.csv").each do |line|
+File.open(current_path+"/2019/stores.csv").each do |line|
   s = Store.new name:line.strip
   s.save!
 end

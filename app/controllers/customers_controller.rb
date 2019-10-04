@@ -79,6 +79,7 @@ class CustomersController < ApplicationController
 
   def top_five_customers
     @valid_customers = Customer.get_top_customers(5)
+    puts("Valid customerssssssssss #{@valid_customers.inspect}")
     render :list_silver_customers
   end
 
@@ -154,8 +155,8 @@ class CustomersController < ApplicationController
   end
 
   def csv_download
-    from_date = params[:from_date]
-    to_date = params[:to_date]
+    from_date = Time.parse(params[:from_date]).utc
+    to_date = Time.parse(params[:to_date]).utc
     all = Transaction.all.where("created_at >= ? AND created_at <= ?", from_date, to_date)
     file = Tempfile.new("Customers#{Time.now.to_f}.csv")
     file_name = "Customers(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
@@ -169,8 +170,8 @@ class CustomersController < ApplicationController
       @filteredCustomers.all.each do |c|
         vouchers = c.transactions.includes(:vouchers).pluck("vouchers.barcode_number")
         vouchers = vouchers.join("- ") if vouchers.present?
-        total_spent_amount = c.transactions.where("date >= ? AND date <= ?", from_date, to_date).map{|t| t.total_amount}.inject {|total, t| total + t}
-        amt = c.transactions.where("date >= ? AND date <= ?", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
+        total_spent_amount = c.transactions.where("created_at >= ? AND created_at <= ?", from_date, to_date).map{|t| t.total_amount}.inject {|total, t| total + t}
+        amt = c.transactions.where("created_at >= ? AND created_at <= ?", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
           v = c.attributes.values_at(*columns) + [total_spent_amount, amt, vouchers]
           csv << v
         end
@@ -179,14 +180,16 @@ class CustomersController < ApplicationController
   end
 
   def silver_winners
-    from_date = params[:from_date]
-    to_date = params[:to_date]
+    #from_date = params[:from_date]
+    #to_date = params[:to_date]
+    from_date = Time.parse(params[:from_date]).utc
+    to_date = Time.parse(params[:to_date]).utc
     #all = Transaction.all.where("date >= ? AND date <= ? AND total_sum >= 3000", from_date, to_date)
     file = Tempfile.new("Silver_Customers#{Time.now.to_f}.csv")
     file_name = "Silver_Customers(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
     path = file.path
-    @filteredCustomers = Customer.where("id in (select customer_id from transactions where date
-                                           >= ? AND date <= ? AND total_sum >= 3000)", from_date, to_date)
+    @filteredCustomers = Customer.where("id in (select customer_id from transactions where created_at
+                                           >= ? AND created_at <= ?)", from_date, to_date)
 
     CSV.open(path, "w") do |csv|
       columns = Customer.customer_column_names
@@ -194,8 +197,8 @@ class CustomersController < ApplicationController
       @filteredCustomers.all.each do |c|
         vouchers = c.transactions.includes(:vouchers).pluck("vouchers.barcode_number")
         vouchers = vouchers.join("- ") if vouchers.present?
-        total_spent_amount = c.transactions.where("date >= ? AND date <= ? AND total_sum >= 3000", from_date, to_date).map{|t| t.total_amount}.inject {|total, t| total + t}
-        amt = c.transactions.where("date >= ? AND date <= ? AND total_sum >= 3000", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
+        total_spent_amount = c.transactions.where("created_at >= ? AND created_at <= ?", from_date, to_date).map{|t| t.total_amount}.inject {|total, t| total + t}
+        amt = c.transactions.where("created_at >= ? AND created_at <= ? ", from_date, to_date).map{|t| t.coupon_amount}.inject {|total, t| total + t}
           v = c.attributes.values_at(*columns) + [total_spent_amount, amt, vouchers]
           csv << v
         end

@@ -200,8 +200,8 @@ class TransactionsController < ApplicationController
   end
 
   def csv_download
-    from_date = params[:from_date]
-    to_date = params[:to_date]
+    from_date = Time.parse(params[:from_date]).utc
+    to_date = Time.parse(params[:to_date]).utc
     all = Transaction.all.where("created_at >= ? AND created_at <= ?", from_date, to_date)
     file = Tempfile.new("Transactions_#{Time.now.to_f}.csv")
     file_name = "Transactions(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
@@ -212,7 +212,7 @@ class TransactionsController < ApplicationController
       csv <<  columns
       all.each do |c|
         total_amount = c.transaction_items.map{|t| t.amount}.inject{|total, vl| total+vl} || 0
-        v = [c.id] + [c.date] +[c.customer_id] + [c.customer_name] + [c.mobile_number] + [total_amount] + [c.coupon_amount]
+        v = [c.id] + [c.created_at.in_time_zone('Chennai')] +[c.customer_id] + [c.customer_name] + [c.mobile_number] + [total_amount] + [c.coupon_amount]
         csv << v
       end
       send_file path, filename: file_name

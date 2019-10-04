@@ -170,7 +170,7 @@ var Transaction =  function(argument) {
     $("#coupons-count").html(totalRows);
     $("#coupon-amount").val(resrictedAmount);
     $("#total-amount").val(totalAmount);
-    $("#VoucherDetailsSection").removeClass("hide");
+    // $("#VoucherDetailsSection").removeClass("hide");
   }
 
   var generateTotal = function(){
@@ -218,6 +218,7 @@ var Transaction =  function(argument) {
     ItemWiseAmountOnChange($("#Count-1"));
     $("#DoneReceipts").click(function(){
       $("#TotalLess").addClass("hide");
+      $("#Totalgreater").addClass("hide");
       var total = generateTotal();
       $("#Total").empty();
       $("#Total").html(total);
@@ -231,6 +232,12 @@ var Transaction =  function(argument) {
       });
       if(total < 1000){
         $("#TotalLess").removeClass("hide");
+        // $("#TotalLess").show();
+        isValid = false;
+      }
+
+      if( total > 10000){
+        $("#Totalgreater").removeClass("hide");
         // $("#TotalLess").show();
         isValid = false;
       }

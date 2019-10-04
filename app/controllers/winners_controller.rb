@@ -6,26 +6,31 @@ class WinnersController < ApplicationController
 
   def create
     number = params[:number]
-    date = params[:date]
+    datetime = params["datetime-local"]
+    parsed_date = DateTime.parse(datetime)
+    date = parsed_date.strftime("%Y-%m-%d %H:00:00")
+    # date = datetime.split('T')[0]
+    # hour = datetime.split('T')[1][0..1]
     customer = nil
-    already_winned_customer = Customer.find_by_winning_date date
-    puts "vvvvvvvvvvvvvvvvvvvvvvvvvvv #{already_winned_customer}"
+    already_winned_customer = Customer.find_by_winning_date(date)
 
+    puts("Already wonnnnnnn #{already_winned_customer}")
+   
     if(already_winned_customer)
-       flash[:error] = 'Already one Customer has won this date,'
+       flash[:error] = 'Already one Customer has won in this Date and Time,'
       redirect_to new_winner_path
       return
     end
 
-    voucher = Voucher.find_by_barcode_number number 
-
-    if (voucher)
-      customer_id = voucher.transact.customer_id
-      customer = Customer.find customer_id
-    else 
-      flash[:error] = 'Not a valid voucher.'
-      redirect_to new_winner_path
-    end  
+    # voucher = Voucher.find_by_barcode_number number 
+    customer = Customer.find_by_mobile number
+    # if (customer)
+    # #   customer_id = voucher.transact.customer_id
+    #   # customer = Customer.find customer_id
+    # else  
+    #   flash[:error] = 'Not a valid Customer.'
+    #   redirect_to new_winner_path
+    # end  
 
     #customer = Customer.find_by_mobile number
 
@@ -37,14 +42,16 @@ class WinnersController < ApplicationController
 
     # v = Voucher.find_by_barcode_number voucher_barcode
     #
+     puts "vvvvvvvvvvvvvvvvvvvvvvvvvvv #{customer.inspect}"
+
     if(customer.nil?)
       flash[:error] = 'Customer does not exist with this number.'
       redirect_to new_winner_path
       return
     end
 
-    if(!customer.nil? && customer.winning_date != nil && customer.is_winner)
-      flash[:error] = 'This Customer has already won.'
+    if(!customer.nil? && customer.winning_date.present? && customer.winning_date.day == parsed_date.day ) #Winning Date check for current day 
+      flash[:error] = 'This Customer has already won Today.'
       redirect_to new_winner_path
       return
     end
@@ -61,8 +68,8 @@ class WinnersController < ApplicationController
   end
 
   def csv_download
-    from_date = params[:from_date] + " 00:00:00"
-    to_date = params[:to_date] + " 23:59:59"
+    from_date = params[:from_date]
+    to_date = params[:to_date]
     all = Customer.all.where("winning_date >= ? AND winning_date <= ?", from_date, to_date)
     file = Tempfile.new("Customers_#{Time.now.to_f}.csv")
     file_name = "Customers(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"

@@ -27,11 +27,11 @@ File.open(current_path+"/2018/stores.csv").each do |line|
   s.save!
 end
 
-File.open(current_path+"/2018/barcodes.csv").each_with_index do |line, index|
-  puts line.strip
-  puts index
-  VoucherMaster.create! barcode_number: line.strip, serial: '', book: ''
-end
+# File.open(current_path+"/2018/barcodes.csv").each_with_index do |line, index|
+#   puts line.strip
+#   puts index
+#   VoucherMaster.create! barcode_number: line.strip, serial: '', book: ''
+# end
 
 
 

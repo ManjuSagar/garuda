@@ -12,7 +12,7 @@
   <tbody>
     <tr>
       <td>Customers With Total Purchase Amount</td>
-      <td> From: <input type="datetime-local" class="form-control rcontrol typeahead download-customers-from-date" value=<%= Date.today%> /></td>
+      <td> From: <input type="datetime-local" class="form-control rcontrol typeahead download-customers-from-date" value=<%= Time.now.strftime("%a %b %d %Y %H:%M:%S")%> /></td>
       <td> To : <input type="datetime-local" class="form-control rcontrol typeahead download-customers-to-date" value=<%= Date.today%> /></td>
       <td><a href="#" onclick='return checkDate("download-customers", "customers_download")'>Download Customers</a></td>
       <!--<td><a href="<%#= customers_path(:format => 'csv')%>">Download Customers</a></td>-->

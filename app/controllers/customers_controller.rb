@@ -188,8 +188,7 @@ class CustomersController < ApplicationController
     file = Tempfile.new("Silver_Customers#{Time.now.to_f}.csv")
     file_name = "Silver_Customers(#{Time.now.strftime("%a %b %d %Y %H:%M:%S")}).csv"
     path = file.path
-    @filteredCustomers = Customer.where("id in (select customer_id from transactions where created_at
-                                           >= ? AND created_at <= ?)", from_date, to_date)
+    @filteredCustomers = Customer.where("id in (select customer_id from transactions where created_at >= ? AND created_at <= ?)", from_date, to_date)
 
     CSV.open(path, "w") do |csv|
       columns = Customer.customer_column_names

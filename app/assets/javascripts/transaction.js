@@ -123,11 +123,11 @@ var Transaction =  function(argument) {
       totalAmount = totalAmount + $(amountField).val() * 1.0;
       var fieldAmount = $(amountField).val() * 1.0;
       if(fieldAmount >= 1000){
-        if(fieldAmount < 20000){
+        if(fieldAmount < 10000){
           var remainingAmount = fieldAmount
           resrictedAmount += fieldAmount;
         } else {
-            resrictedAmount += 20000  //If bill value is greater than 20k then conside only 20000
+            resrictedAmount += 10000  //If bill value is greater than 10k then conside only 20000
         }
         var numRows = Math.floor(fieldAmount/1000);
         if(numRows >= 20){
@@ -218,7 +218,7 @@ var Transaction =  function(argument) {
     ItemWiseAmountOnChange($("#Count-1"));
     $("#DoneReceipts").click(function(){
       $("#TotalLess").addClass("hide");
-      $("#Totalgreater").addClass("hide");
+      // $("#Totalgreater").addClass("hide");
       var total = generateTotal();
       $("#Total").empty();
       $("#Total").html(total);
@@ -236,11 +236,11 @@ var Transaction =  function(argument) {
         isValid = false;
       }
 
-      if( total > 10000){
-        $("#Totalgreater").removeClass("hide");
-        // $("#TotalLess").show();
-        isValid = false;
-      }
+      // if( total > 10000){
+      //   $("#Totalgreater").removeClass("hide");
+      //   // $("#TotalLess").show();
+      //   isValid = false;
+      // }
 
       if(!isValid) return;
 

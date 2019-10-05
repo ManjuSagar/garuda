@@ -63,6 +63,7 @@ class Customer < ActiveRecord::Base
 
    def mark_as_winner(date, voucher)
      self.winning_date = date 
+     self.got_silver = true
      # self.winning_bar_code = voucher
      self.is_winner = true
    end

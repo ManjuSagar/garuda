@@ -129,9 +129,9 @@ class TransactionsController < ApplicationController
       customer.remarks = customer_info["remarks"].strip
     end
 
-    if(customer.is_winner? and !valid_vouchers.empty?)
-   # if(customer.is_winner?)
-      render :nothing => true, :status => :bad_request
+    if(customer.is_winner and customer.winning_date.today? )
+      errors << "Already this customer has won silver today!"
+      render :json => errors, :status => :bad_request
       return
     end
 

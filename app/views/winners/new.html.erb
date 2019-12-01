@@ -1,8 +1,7 @@
 <form role="form" action=<%= winners_path%> method="post">
   <div class="form-group">
     <label for="WinForm">Winner For Date</label>
-    <input type="datetime-local" class="form-control" style="width: 50%" name="datetime-local" > 
-    <!-- value=<%= DateTime.now%> -->
+    <input type="datetime-local" class="form-control rcontrol typeahead download-customers-from-date" value=<%= Time.now.strftime("%Y-%m-%dT%H:%M")%> name="datetime-local" />
     <br/>
     <label for="WinForm">Winning mobile Number</label>
     <input type="text" class="form-control" id="WinForm" name ="number" placeholder="Enter Mobbile number">

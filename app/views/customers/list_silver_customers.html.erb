@@ -7,8 +7,9 @@
       <th>Coupon Amount</th>
       <th> Total Amount </th>
       <% if controller.action_name == 'list_silver_customers' %>
-        <th>Got silver coin?</th>
+        <th>Got Gold coin?</th>
       <% end %>
+      <th> Winning Date and Time </th>
     </tr>
   </thead>
   <tbody>
@@ -21,6 +22,7 @@
         <% if controller.action_name == 'list_silver_customers' %>
           <td><%=c['got_silver'] == 'f'? "No" : "YES" %></td>
         <% end %>
+         <td><%=c['winning_date'] %></td>
       </tr>
     <% end %>
   </tbody>

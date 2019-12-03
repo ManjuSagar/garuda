@@ -30,7 +30,7 @@ class Customer < ActiveRecord::Base
      d1 = Date.today.to_s + " 00:00:00"
      d2 = Date.today.to_s + " 23:59:59"
      #Customer.joins(:transactions).where("transactions.date >= ? AND transactions.date <= ? and transactions.coupon_amount >= 3000", d1, d2)
-     sql = "select customers.id, customers.name, customers.mobile, customers.got_silver, customers.winning_date, transactions.coupon_amount, transactions.total_sum from customers INNER JOIN transactions ON  customers.id = transactions.customer_id WHERE transactions.date >= '"+ d1 +"' and transactions.date <= '" + d2 +"' and customers.got_silver = true;"
+     sql = "select customers.id, customers.name, customers.mobile, customers.got_silver, customers.winning_date, transactions.coupon_amount, transactions.total_sum from customers INNER JOIN transactions ON  customers.id = transactions.customer_id WHERE transactions.date >= '"+ d1 +"' and transactions.date <= '" + d2 +"' and customers.winning_date >= '"+ d1 +"' and customers.winning_date <= '" + d2 +"' and customers.got_silver = true;"
      res = ActiveRecord::Base.connection.execute(sql)
      res  
    end
@@ -45,7 +45,7 @@ class Customer < ActiveRecord::Base
         starting_of_time = Time.parse(current_time).getutc.strftime("%Y-%m-%d %H:%M:%S")
       end
       end_of_time = Time.now.utc.strftime("%Y-%m-%d %H:%M:%S") 
-      sql = "select c.id, c.name, c.mobile, c.got_silver, SUM(t.coupon_amount), SUM(t.total_sum) as total_amount from customers c INNER JOIN transactions t ON c.id = t.customer_id AND t.created_at BETWEEN '"+ starting_of_time +"' AND '" + end_of_time + "' GROUP BY C.iD ORDER BY sum DESC limit " + limit.to_s + ";"
+      sql = "select c.id, c.name, c.mobile, c.got_silver, SUM(t.coupon_amount), SUM(t.total_sum) as total_amount, c.winning_date from customers c INNER JOIN transactions t ON c.id = t.customer_id AND t.created_at BETWEEN '"+ starting_of_time +"' AND '" + end_of_time + "' GROUP BY C.iD ORDER BY sum DESC limit " + limit.to_s + ";"
       ActiveRecord::Base.connection.execute(sql) 
    end
 

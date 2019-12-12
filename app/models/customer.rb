@@ -30,14 +30,14 @@ class Customer < ActiveRecord::Base
      d1 = Date.today.to_s + " 00:00:00"
      d2 = Date.today.to_s + " 23:59:59"
      #Customer.joins(:transactions).where("transactions.date >= ? AND transactions.date <= ? and transactions.coupon_amount >= 3000", d1, d2)
-     sql = "select customers.id, customers.name, customers.mobile, customers.got_silver, customers.winning_date, transactions.coupon_amount, transactions.total_sum from customers INNER JOIN transactions ON  customers.id = transactions.customer_id WHERE transactions.date >= '"+ d1 +"' and transactions.date <= '" + d2 +"' and customers.winning_date >= '"+ d1 +"' and customers.winning_date <= '" + d2 +"' and customers.got_silver = true;"
+     sql = "select customers.id, customers.name, customers.mobile, customers.got_silver, customers.winning_date, transactions.coupon_amount, transactions.total_sum from customers INNER JOIN transactions ON  customers.id = transactions.customer_id WHERE transactions.date >= '"+ d1 +"' and transactions.date <= '" + d2 +"' and customers.winning_date >= '"+ d1 +"' and customers.winning_date <= '" + d2 +"' and customers.got_silver = true ORDER BY transactions.coupon_amount DESC limit 1;"
      res = ActiveRecord::Base.connection.execute(sql)
      res  
    end
 
    def self.get_top_customers(limit)
       peak_time = Time.now.hour
-      if(peak_time === 10 || peak_time === 11 || peak_time === 12 || peak_time === 13)
+      if(peak_time === 10 || peak_time === 11 || peak_time === 12 )
         current_time = Time.now.strftime("%Y-%m-%d 10:00:00")
         starting_of_time = Time.parse(current_time).getutc.strftime("%Y-%m-%d %H:%M:%S")
       else 
